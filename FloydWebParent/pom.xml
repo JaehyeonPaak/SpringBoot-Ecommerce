@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>FloydBackEnd</module>
+		<module>FloydFrontEnd</module>
 	</modules>
 
 	<properties>

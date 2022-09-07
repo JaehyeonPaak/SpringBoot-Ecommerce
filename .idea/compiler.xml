@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="FloydCommon" />
+        <module name="FloydFrontEnd" />
         <module name="FloydBackEnd" />
       </profile>
     </annotationProcessing>
@@ -15,6 +16,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="FloydBackEnd" options="-parameters" />
       <module name="FloydCommon" options="-parameters" />
+      <module name="FloydFrontEnd" options="-parameters" />
       <module name="FloydWebParent" options="" />
     </option>
   </component>
