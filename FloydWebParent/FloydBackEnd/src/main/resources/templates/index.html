@@ -1,13 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Floyd Admin Control Panel</title>
+    <title>Home - Floyd Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
-    <h1>Welcome to Floyd Admin Control Panel</h1>
+<div class="container-fluid">
+    <div>
+        <nav class="navbar navbar-expand bg-dark navbar-dark">
+            <img th:src="@{/images/logo_transparent.png}">
+        </nav>
+    </div>
+    <div>
+        <h1>Welcome to Floyd Admin Control Panel</h1>
+    </div>
+    <div>
+        <p>Floyd Control Panel - Copyright &copy; Floyd</p>
+    </div>
+</div>
 </body>
 </html>
