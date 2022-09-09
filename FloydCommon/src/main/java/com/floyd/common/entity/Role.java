@@ -1,8 +1,6 @@
 package com.floyd.common.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +8,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "roles")
 public class Role {
 
@@ -18,8 +18,11 @@ public class Role {
     private Integer id;
 
     @Column(length = 40, nullable = false, unique = true)
+    @NonNull
     private String name;
 
     @Column(length = 150, nullable = false)
+    @NonNull
     private String description;
+
 }

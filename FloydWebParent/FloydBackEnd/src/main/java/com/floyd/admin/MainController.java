@@ -1,4 +1,4 @@
-package com.floyd.admin.user;
+package com.floyd.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
