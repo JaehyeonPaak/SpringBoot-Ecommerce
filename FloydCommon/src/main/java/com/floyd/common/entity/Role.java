@@ -11,6 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "roles")
+@ToString
 public class Role {
 
     @Id
