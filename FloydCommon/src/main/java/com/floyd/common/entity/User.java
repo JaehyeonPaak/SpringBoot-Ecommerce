@@ -9,7 +9,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -18,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(length = 128, nullable = false, unique = true)
     private String email;
