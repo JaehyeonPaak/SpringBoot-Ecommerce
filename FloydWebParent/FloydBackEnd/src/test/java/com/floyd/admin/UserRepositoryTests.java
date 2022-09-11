@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,4 +59,31 @@ public class UserRepositoryTests {
         }
     }
 
+    @Test
+    public void testGetUserById() {
+        var user = userRepository.findById(1).orElse(null);
+        System.out.println(user);
+        assertThat(user.getId()).isNotNull();
+    }
+
+    @Test
+    public void testUpdateUserDetails() {
+        var user = userRepository.findById(1).orElse(null);
+        user.setEnabled(true);
+        user.setEmail("tony@gmail.com");
+        user.setPassword("9457");
+        user.setFirstName("Tony");
+        user.setLastName("Ferguson");
+        System.out.println(user);
+    }
+
+    @Test
+    public void testUpdateUserRoles() {
+        var user = userRepository.findById(1).orElse(null);
+        var roleSalesperson = entityManager.find(Role.class, 2);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleSalesperson);
+        user.setRoles(roles);
+        System.out.println(user);
+    }
 }
