@@ -11,7 +11,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "roles")
-@ToString
 public class Role {
 
     @Id
@@ -25,4 +24,9 @@ public class Role {
     @Column(length = 150, nullable = false)
     @NonNull
     private String description;
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
