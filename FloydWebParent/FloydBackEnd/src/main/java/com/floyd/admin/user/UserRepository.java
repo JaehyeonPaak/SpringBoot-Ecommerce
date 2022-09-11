@@ -1,9 +1,9 @@
 package com.floyd.admin.user;
 
-import com.floyd.common.entity.Role;
+import com.floyd.common.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface UserRepository extends CrudRepository<User, Integer> {
 }
