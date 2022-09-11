@@ -86,4 +86,17 @@ public class UserRepositoryTests {
         user.setRoles(roles);
         System.out.println(user);
     }
+
+    @Test
+    public void testDeleteUser() {
+        System.out.println(">>> Before deletion");
+        for (User user: userRepository.findAll()) {
+            System.out.println(user);
+        }
+        userRepository.deleteById(2);
+        System.out.println(">>> After deletion");
+        for (User user: userRepository.findAll()) {
+            System.out.println(user);
+        }
+    }
 }
