@@ -40,4 +40,5 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", "The user has been created successfully!");
         return "redirect:/users";
     }
+
 }
