@@ -114,7 +114,7 @@
 
       <div class="text-center">
         <input type="submit" value="Save" class="btn btn-primary m-3">
-        <input type="submit" value="Cancel" class="btn btn-secondary">
+        <input type="submit" value="Cancel" class="btn btn-secondary" id="buttonCancel">
       </div>
     </div>
   </form>
@@ -123,5 +123,13 @@
     <p>Floyd Control Panel - Copyright &copy; Floyd</p>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#buttonCancel").on("click", function() {
+      window.location = "[[@{/users}]]";
+    })
+  });
+</script>
 </body>
 </html>
