@@ -98,4 +98,15 @@ public class UserRepositoryTests {
             System.out.println(user);
         }
     }
+
+    @Test
+    public void testGetUserByEmail() {
+        String nonExistingEmail = "wogus392@gmail.com";
+        var user1 = userRepository.getUserByEmail(nonExistingEmail);
+        assertThat(user1).isNull();
+
+        String existingEmail = "tony@gmail.com";
+        var user2 = userRepository.getUserByEmail(existingEmail);
+        assertThat(user2).isNotNull();
+    }
 }
