@@ -39,8 +39,8 @@ public class UserService {
     }
 
     public boolean isEmailUnique(String email) {
-        var userByEmail = userRepository.getUserByEmail(email);
-        return userByEmail == null;
+        var user = userRepository.getUserByEmail(email);
+        return user == null;
     }
 
 }
