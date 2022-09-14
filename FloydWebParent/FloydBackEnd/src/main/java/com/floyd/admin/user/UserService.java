@@ -30,7 +30,22 @@ public class UserService {
     }
 
     public User save(User user) {
-        encodePassword(user);
+
+        boolean isUpdatingUser = (user.getId() != null);
+
+        if(isUpdatingUser) { // if updating user...
+            var excistingUser = userRepository.findById(user.getId()).orElse(null);
+            if(user.getPassword().isEmpty()) { // if password field is empty, use existing password...
+                user.setPassword(excistingUser.getPassword());
+            }
+            else { // if password field is not empty, use new password...
+                encodePassword(user);
+            }
+        }
+        else { // if creating user...
+            encodePassword(user);
+        }
+
         return userRepository.save(user);
     }
 
@@ -43,7 +58,7 @@ public class UserService {
         var user = userRepository.getUserByEmail(email);
 
         if(id == null) { // if create new user...
-            if(user.getEmail() != null) { // if another user is already using the email...
+            if(user != null) { // if another user is already using the email...
                 return false;
             }
         }
