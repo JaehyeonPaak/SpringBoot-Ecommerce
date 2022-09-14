@@ -43,12 +43,12 @@ public class UserService {
         var user = userRepository.getUserByEmail(email);
 
         if(id == null) { // if create new user...
-            if(user != null) {
+            if(user.getEmail() != null) { // if another user is already using the email...
                 return false;
             }
         }
         else { // if edit user...
-            if(user.getId() != id) {
+            if(user.getId() != id) { // if editing user has different id...
                 return false;
             }
         }
