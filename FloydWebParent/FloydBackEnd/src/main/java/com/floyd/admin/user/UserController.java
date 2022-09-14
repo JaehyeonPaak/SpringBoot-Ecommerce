@@ -38,8 +38,15 @@ public class UserController {
 
     @PostMapping("/users/save")
     public String saveNewUser(User user, RedirectAttributes redirectAttributes) {
+
+        if(user.getId() == null) {
+            redirectAttributes.addFlashAttribute("message", "The user has been created successfully!");
+        }
+        else {
+            redirectAttributes.addFlashAttribute("message", "The user has been updated successfully!");
+        }
         userService.save(user);
-        redirectAttributes.addFlashAttribute("message", "The user has been created successfully!");
+
         return "redirect:/users";
     }
 
