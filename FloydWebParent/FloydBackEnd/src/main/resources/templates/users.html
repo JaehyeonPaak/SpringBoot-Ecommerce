@@ -5,12 +5,17 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
   <title>Home - Floyd Admin</title>
 
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+
   <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
   <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
+
 <body>
 <div class="container-fluid">
   <div>
@@ -86,14 +91,19 @@
       <tbody>
         <tr th:each="user : ${listUsers}">
           <td>[[${user.id}]]</td>
-          <td></td>
+          <td><span class="fa-solid fa-image-portrait fa-3x icon-silver"></span></td>
           <td>[[${user.email}]]</td>
           <td>[[${user.firstName}]]</td>
           <td>[[${user.lastName}]]</td>
           <td>[[${user.roles}]]</td>
-          <td>[[${user.enabled}]]</td>
           <td>
-            Edit &nbsp; Delete
+            <a th:if="${user.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-cadetblue" href=""></a>
+            <a th:if="${user.enabled == false}" class="fa-solid fa-check-circle fa-2x icon-silver" href=""></a>
+          </td>
+          <td>
+            <a class="fa-solid fa-pen-to-square fa-2x icon-silver" href=""></a>
+            &nbsp; &nbsp;
+            <a class="fa-solid fa-trash fa-2x icon-silver" href=""></a>
           </td>
         </tr>
       </tbody>
