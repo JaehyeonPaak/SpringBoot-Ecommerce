@@ -5,7 +5,8 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Create New User</title>
+
+  <title>[[${pageTitle}]]</title>
 
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
   <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -60,11 +61,13 @@
       </div>
     </nav>
   </div>
+
   <div>
-    <h1>Manage users | Create New User</h1>
+    <h1>Manage users | [[${pageTitle}]]</h1>
   </div>
 
   <form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto" th:object="${user}" onsubmit="return checkEmailUnique(this)">
+    <input type="hidden" th:field="*{id}">
     <div class="border border-secondary rounded p-3">
       <div class="form-group row">
         <label class="col-sm-4 col-form-label">E-Mail:</label>
@@ -154,9 +157,11 @@
 
   function checkEmailUnique(form) {
     url = "[[@{/users/check_email}]]";
+    userId = $("#id").val();
     userEmail = $("#email").val();
     csrf = $("input[name='_csrf']").val();
-    params = {email: userEmail, _csrf: csrf};
+
+    params = {id: userId, email: userEmail, _csrf: csrf};
 
     $.post(url, params, function(response) {
       if(response == "OK") {

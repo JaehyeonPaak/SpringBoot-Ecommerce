@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -38,9 +39,30 @@ public class UserService {
         user.setPassword(encodedPassword);
     }
 
-    public boolean isEmailUnique(String email) {
+    public boolean isEmailUnique(Integer id, String email) {
         var user = userRepository.getUserByEmail(email);
-        return user == null;
+
+        if(id == null) { // if create new user...
+            if(user != null) {
+                return false;
+            }
+        }
+        else { // if edit user...
+            if(user.getId() != id) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public User get(Integer id) throws UserNotFoundException {
+        try {
+            return userRepository.findById(id).get();
+        }
+        catch(NoSuchElementException e) {
+            throw new UserNotFoundException("Could not find any user with ID " + id);
+        }
     }
 
 }
