@@ -117,4 +117,11 @@ public class UserRepositoryTests {
 
         assertThat(count).isEqualTo(0);
     }
+
+    @Test
+    public void testEnableUser() {
+        Integer id = 1;
+        userRepository.updateEnabledStatus(id, true);
+        var user = userRepository.findById(id).orElse(null);
+    }
 }

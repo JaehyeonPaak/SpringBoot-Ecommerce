@@ -2,6 +2,7 @@ package com.floyd.admin.user;
 
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +78,14 @@ public class UserController {
         catch (UserNotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/{id}/enabled/{status}")
+    public String updateUserEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+        userService.updateUserEnabledStatus(id, enabled);
+        String message = (enabled ? "The user ID " + id + " has been enabled" : "The user ID " + id + " has been disabled");
+        redirectAttributes.addFlashAttribute("message", message);
         return "redirect:/users";
     }
 
