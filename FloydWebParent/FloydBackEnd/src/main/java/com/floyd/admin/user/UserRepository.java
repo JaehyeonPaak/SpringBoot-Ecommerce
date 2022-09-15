@@ -17,5 +17,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("UPDATE User u SET u.enabled = :enabled WHERE u.id = :id")
     @Modifying
-    void updateEnabledStatus(@Param("id") Integer id, @Param("enabled") boolean enabled);
+    void updateEnabledStatus(Integer id, boolean enabled);
 }
