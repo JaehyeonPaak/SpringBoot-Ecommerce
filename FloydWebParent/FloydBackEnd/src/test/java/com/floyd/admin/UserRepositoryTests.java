@@ -109,4 +109,12 @@ public class UserRepositoryTests {
         var user2 = userRepository.getUserByEmail(existingEmail);
         assertThat(user2).isNotNull();
     }
+
+    @Test
+    public void testCountById() {
+        Integer id = 100;
+        var count = userRepository.countById(id);
+
+        assertThat(count).isEqualTo(0);
+    }
 }

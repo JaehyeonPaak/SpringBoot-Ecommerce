@@ -3,6 +3,7 @@ package com.floyd.admin.user;
 import com.floyd.common.entity.Role;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,9 +76,16 @@ public class UserService {
         try {
             return userRepository.findById(id).get();
         }
-        catch(NoSuchElementException e) {
+        catch (NoSuchElementException e) {
             throw new UserNotFoundException("Could not find any user with ID " + id);
         }
     }
 
+    public void delete(Integer id) throws UserNotFoundException {
+        Long count = userRepository.countById(id);
+        if(count == null | count == 0) {
+            throw new UserNotFoundException("Could not find any user with ID " + id);
+        }
+        userRepository.deleteById(id);
+    }
 }
