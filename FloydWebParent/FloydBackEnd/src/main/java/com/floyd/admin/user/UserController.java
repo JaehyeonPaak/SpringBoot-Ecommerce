@@ -1,14 +1,19 @@
 package com.floyd.admin.user;
 
+import com.floyd.admin.FileUploadUtil;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 
 @Controller
 public class UserController {
@@ -38,14 +43,16 @@ public class UserController {
     }
 
     @PostMapping("/users/save")
-    public String saveNewUser(User user, RedirectAttributes redirectAttributes) {
+    public String saveNewUser(User user, RedirectAttributes redirectAttributes, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String uploadDir = "FloydWebParent/FloydBackEnd/user-photos";
+        FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
 
-        if(user.getId() == null) {
-            redirectAttributes.addFlashAttribute("message", "The user has been created successfully!");
+        if(filename.isEmpty()) {
+
         }
-        else {
-            redirectAttributes.addFlashAttribute("message", "The user has been updated successfully!");
-        }
+
+        redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
         userService.save(user);
 
         return "redirect:/users";
