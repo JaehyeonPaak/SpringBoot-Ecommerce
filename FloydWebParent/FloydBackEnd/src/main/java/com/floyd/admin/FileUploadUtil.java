@@ -14,7 +14,7 @@ public class FileUploadUtil {
     public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
 
-        if(!Files.exists(uploadPath)) {
+        if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
 
@@ -24,6 +24,26 @@ public class FileUploadUtil {
         }
         catch (IOException e) {
             throw new IOException("Could not save file: " + fileName, e);
+        }
+    }
+
+    public static void cleanDir(String uploadDir) {
+        Path dirPath = Paths.get(uploadDir);
+
+        try {
+            Files.list(dirPath).forEach(file -> {
+                if (!Files.isDirectory(file)) {
+                    try {
+                        Files.delete(file);
+
+                    } catch (IOException e) {
+                        System.out.println("Could not delete file: " + file);
+                    }
+                }
+            });
+        }
+        catch (IOException e) {
+            System.out.println("Could not list directory: " + dirPath);
         }
     }
 }

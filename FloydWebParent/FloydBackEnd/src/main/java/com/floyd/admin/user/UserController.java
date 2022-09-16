@@ -51,6 +51,7 @@ public class UserController {
             var savedUser = userService.save(user);
             String uploadDir = "FloydWebParent/FloydBackEnd/user-photos/" + savedUser.getId();
 
+            FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
         }
 
