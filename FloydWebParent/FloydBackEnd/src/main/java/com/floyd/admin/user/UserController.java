@@ -44,16 +44,18 @@ public class UserController {
 
     @PostMapping("/users/save")
     public String saveNewUser(User user, RedirectAttributes redirectAttributes, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-        var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        String uploadDir = "FloydWebParent/FloydBackEnd/user-photos";
-        FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
 
-        if(filename.isEmpty()) {
+        if (!multipartFile.isEmpty()) {
+            var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            user.setPhotos(filename);
+            var savedUser = userService.save(user);
+            String uploadDir = "FloydWebParent/FloydBackEnd/user-photos/" + savedUser.getId();
 
+            FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
         }
 
         redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
-        userService.save(user);
+        //userService.save(user);
 
         return "redirect:/users";
     }

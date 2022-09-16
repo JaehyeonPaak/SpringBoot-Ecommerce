@@ -21,7 +21,7 @@
   <div>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
       <a class="navbar-brand" th:href="@{/}">
-        <img th:src="@{/images/logo-transparent.png}">
+        <image th:src="@{/images/logo-transparent.png}"></image>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
         <span class="navbar-toggler-icon"></span>
@@ -91,7 +91,10 @@
       <tbody>
         <tr th:each="user : ${listUsers}">
           <td>[[${user.id}]]</td>
-          <td><span class="fa-solid fa-image-portrait fa-3x icon-silver"></span></td>
+          <td>
+            <span th:if="${user.photos == null}" class="fa-solid fa-image-portrait fa-3x icon-silver"></span>
+            <image th:if="${user.photos != null}" th:src="@{${user.getPhotosImagePath()}}" style="width: 100px"></image>
+          </td>
           <td>[[${user.email}]]</td>
           <td>[[${user.firstName}]]</td>
           <td>[[${user.lastName}]]</td>

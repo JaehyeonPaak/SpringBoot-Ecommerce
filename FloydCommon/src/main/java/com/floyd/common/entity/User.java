@@ -49,8 +49,16 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @Transient
     public void addRole(Role role) {
         this.roles.add(role);
     }
 
+    @Transient
+    public String getPhotosImagePath() {
+        if(this.id == null || this.photos == null) {
+            return "/images/default-user.png";
+        }
+        return "FloydWebParent/FloydBackEnd/user-photos/" + this.id + "/" + this.photos;
+    }
 }
