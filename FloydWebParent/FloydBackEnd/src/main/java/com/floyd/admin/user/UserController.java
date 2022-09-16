@@ -54,6 +54,12 @@ public class UserController {
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
         }
+        else {
+            if (user.getPhotos() == null) {
+                user.setPhotos(null);
+            }
+            userService.save(user);
+        }
 
         redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
         //userService.save(user);
