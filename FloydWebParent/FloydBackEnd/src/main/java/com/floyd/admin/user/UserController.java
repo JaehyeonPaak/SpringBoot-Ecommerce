@@ -3,6 +3,7 @@ package com.floyd.admin.user;
 import com.floyd.admin.FileUploadUtil;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -23,7 +24,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String listFirstPage(Model model) {
-        return listByPage(1, model);
+        return listByPage(1, "firstName", "asc", model);
     }
 
     @GetMapping("/users/new")
@@ -106,15 +107,19 @@ public class UserController {
     }
 
     @GetMapping("/users/page/{pageNumber}")
-    public String listByPage(@PathVariable("pageNumber") int pageNumber, Model model) {
-        var page = userService.listByPage(pageNumber);
+    public String listByPage(@PathVariable(name = "pageNumber") int pageNumber, @RequestParam(name = "sortField") String sortField, @RequestParam(name = "sortDir") String sortDir, Model model) {
+        var page = userService.listByPage(pageNumber, sortField, sortDir);
         var listUsers = page.getContent();
+        var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
 
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("usersPerPage", userService.USERS_PER_PAGE);
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseDir", reverseDir);
 
         return "users";
     }
