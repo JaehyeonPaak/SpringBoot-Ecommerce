@@ -22,10 +22,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users")
-    public String listAll(Model model) {
-        var listUsers = userService.listUsers();
-        model.addAttribute("listUsers", listUsers);
-        return "users";
+    public String listFirstPage(Model model) {
+        return listByPage(1, model);
     }
 
     @GetMapping("/users/new")
@@ -49,7 +47,7 @@ public class UserController {
             var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(filename);
             var savedUser = userService.save(user);
-            String uploadDir = "FloydWebParent/FloydBackEnd/user-photos/" + savedUser.getId();
+            String uploadDir = "user-photos/" + savedUser.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
@@ -105,6 +103,20 @@ public class UserController {
         redirectAttributes.addFlashAttribute("message", message);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/users/page/{pageNumber}")
+    public String listByPage(@PathVariable("pageNumber") int pageNumber, Model model) {
+        var page = userService.listByPage(pageNumber);
+        var listUsers = page.getContent();
+
+        model.addAttribute("listUsers", listUsers);
+        model.addAttribute("usersPerPage", userService.USERS_PER_PAGE);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("currentPage", pageNumber);
+
+        return "users";
     }
 
 }

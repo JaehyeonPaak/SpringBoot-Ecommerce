@@ -59,6 +59,6 @@ public class User {
         if(this.id == null || this.photos == null) {
             return "/images/default-user.png";
         }
-        return "FloydWebParent/FloydBackEnd/user-photos/" + this.id + "/" + this.photos;
+        return "/user-photos/" + this.id + "/" + this.photos;
     }
 }
