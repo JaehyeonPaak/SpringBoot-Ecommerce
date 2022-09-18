@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login - Floyd Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid text-center m-5">
+    <div>
+        <img th:src="@{/images/big-logo-transparent.png}">
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="border border-secondary rounded p-3" style="max-width: 350px; margin: 0 auto">
+            <p>Access to Floyd Control Panel</p>
+            <p>
+                <input type="email" name="email" class="form-control" placeholder="E-Mail" required>
+            </p>
+            <p>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </p>
+            <p>
+                <input type="submit" value="Login" class="btn btn-primary">
+            </p>
+        </div>
+    </form>
+
+    <div>
+        <p>Floyd Control Panel - Copyright &copy; Floyd</p>
+    </div>
+</div>
+</body>
+</html>
