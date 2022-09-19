@@ -39,6 +39,10 @@ public class FloydUserDetails implements UserDetails {
         return user.getEmail();
     }
 
+    public String getFullUsername() {
+        return this.user.getFirstName() + " " + this.user.getLastName();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
