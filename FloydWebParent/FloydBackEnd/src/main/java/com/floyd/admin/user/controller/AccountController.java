@@ -1,7 +1,8 @@
-package com.floyd.admin.user;
+package com.floyd.admin.user.controller;
 
 import com.floyd.admin.FileUploadUtil;
 import com.floyd.admin.security.FloydUserDetails;
+import com.floyd.admin.user.UserService;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,8 +29,7 @@ public class AccountController {
         var user = userService.getByEmail(email);
 
         model.addAttribute("user", user);
-
-        return "account_form";
+        return "users/account_form";
     }
 
     @PostMapping("/account/update")

@@ -1,6 +1,8 @@
-package com.floyd.admin.user;
+package com.floyd.admin.user.controller;
 
 import com.floyd.admin.FileUploadUtil;
+import com.floyd.admin.user.UserNotFoundException;
+import com.floyd.admin.user.UserService;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,7 +39,7 @@ public class UserController {
         model.addAttribute("roles", roles);
         model.addAttribute("pageTitle", "Create New User");
 
-        return "user_form";
+        return "users/user_form";
     }
 
     @PostMapping("/users/save")
@@ -76,7 +78,7 @@ public class UserController {
             model.addAttribute("roles", roles);
             model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 
-            return "user_form";
+            return "users/user_form";
         }
         catch(UserNotFoundException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
@@ -117,7 +119,6 @@ public class UserController {
         var page = userService.listByPage(pageNumber, sortField, sortDir, keyword);
         var listUsers = page.getContent();
         var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
-
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("usersPerPage", userService.USERS_PER_PAGE);
         model.addAttribute("totalItems", page.getTotalElements());
@@ -127,8 +128,7 @@ public class UserController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseDir", reverseDir);
         model.addAttribute("keyword", keyword);
-
-        return "users";
+        return "users/users";
     }
 
 }
