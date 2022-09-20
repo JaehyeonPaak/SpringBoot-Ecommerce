@@ -80,7 +80,7 @@
                         <span class="fas fa-user fa-2x icon-silver m-2"></span>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" sec:authentication="principal.fullUsername"></a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" sec:authentication="principal.fullUsername" th:href="@{/account}"></a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" id="logoutLink" href="">Logout</a>
                         </div>

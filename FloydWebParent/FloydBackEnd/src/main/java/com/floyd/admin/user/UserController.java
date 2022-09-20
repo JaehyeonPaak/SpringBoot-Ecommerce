@@ -42,7 +42,6 @@ public class UserController {
 
     @PostMapping("/users/save")
     public String saveUser(User user, RedirectAttributes redirectAttributes, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-
         if (!multipartFile.isEmpty()) {
             var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(filename);
@@ -59,7 +58,6 @@ public class UserController {
             userService.save(user);
         }
         redirectAttributes.addFlashAttribute("message", "The user has been saved successfully!");
-
         return getRedirectURLtoAffectedUser(user);
     }
 

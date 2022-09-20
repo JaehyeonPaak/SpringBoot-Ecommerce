@@ -38,9 +38,7 @@ public class UserService {
     }
 
     public User save(User user) {
-
         boolean isUpdatingUser = (user.getId() != null);
-
         if(isUpdatingUser) { // if updating user...
             var excistingUser = userRepository.findById(user.getId()).orElse(null);
             if(user.getPassword().isEmpty()) { // if password field is empty, use existing password...
@@ -53,8 +51,21 @@ public class UserService {
         else { // if creating user...
             encodePassword(user);
         }
-
         return userRepository.save(user);
+    }
+
+    public User updateUserDetails(User userDetail) {
+        var userInDB = userRepository.findById(userDetail.getId()).get();
+        if (!userDetail.getPassword().isEmpty()) {
+            userInDB.setPassword(userDetail.getPassword());
+            encodePassword(userInDB);
+        }
+        if (userDetail.getPhotos() != null) {
+            userInDB.setPhotos(userDetail.getPhotos());
+        }
+        userInDB.setFirstName(userDetail.getFirstName());
+        userInDB.setLastName(userDetail.getLastName());
+        return userRepository.save(userInDB);
     }
 
     private void encodePassword(User user) {
@@ -88,6 +99,10 @@ public class UserService {
         }
     }
 
+    public User getByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+
     public void delete(Integer id) throws UserNotFoundException {
         Long count = userRepository.countById(id);
         if(count == null | count == 0) {
@@ -111,4 +126,5 @@ public class UserService {
 
         return userRepository.findAll(pageable);
     }
+
 }

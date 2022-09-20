@@ -62,4 +62,13 @@ public class FloydUserDetails implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
+
+
+    public void setFirstName(String firstName) {
+        user.setFirstName(firstName);
+    }
+
+    public void setLastName(String lastName) {
+        user.setLastName(lastName);
+    }
 }
