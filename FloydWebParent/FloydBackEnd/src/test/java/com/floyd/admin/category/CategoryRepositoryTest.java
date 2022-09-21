@@ -73,4 +73,9 @@ public class CategoryRepositoryTest {
         }
     }
 
+    @Test
+    public void testListRootCategories() {
+        var rootCategories = categoryRepository.listRootCategories();
+        assertThat(rootCategories.size()).isEqualTo(1);
+    }
 }

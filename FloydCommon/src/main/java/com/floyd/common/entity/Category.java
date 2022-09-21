@@ -54,4 +54,12 @@ public class Category {
         this.alias = name;
         this.image = "default.png";
     }
+
+    @Transient
+    public String getImagePath() {
+        if(this.id == null || this.image == null) {
+            return "/images/image-thumbnail.png";
+        }
+        return "/category-images/" + this.id + "/" + this.image;
+    }
 }

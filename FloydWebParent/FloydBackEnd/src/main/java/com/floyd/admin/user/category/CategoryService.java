@@ -14,7 +14,39 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public List<Category> listCategories() {
-        return (List<Category>) categoryRepository.findAll();
+        var rootCategories = categoryRepository.listRootCategories();
+        return listHierarchicalCategories(rootCategories);
+    }
+
+    private List<Category> listHierarchicalCategories(List<Category> rootCategories) {
+        List<Category> hierarchicalCategories = new ArrayList<>();
+        for (Category rootCategory : rootCategories) {
+            hierarchicalCategories.add(rootCategory);
+            var children = rootCategory.getChildren();
+            for (Category subCategory : children) {
+                String name = "--" + subCategory.getName();
+                subCategory.setName(name);
+                hierarchicalCategories.add(subCategory);
+
+                listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+            }
+        }
+        return hierarchicalCategories;
+    }
+
+    private void listSubHierarchicalCategories(List<Category> hierarchicalCategories, Category parent, int subLevel) {
+        var children = parent.getChildren();
+        int newSubLevel = subLevel + 1;
+        for (Category subCategory : children) {
+            String name = "";
+            for (int i = 0; i < newSubLevel; i++) {
+                name += "--";
+            }
+            name += subCategory.getName();
+            subCategory.setName(name);
+            hierarchicalCategories.add(subCategory);
+            listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel);
+        }
     }
 
     public List<Category> listCategoriesUsedInForm() {
