@@ -1,4 +1,4 @@
-package com.floyd.admin;
+package com.floyd.admin.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

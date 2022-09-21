@@ -1,4 +1,4 @@
-package com.floyd.admin;
+package com.floyd.admin.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

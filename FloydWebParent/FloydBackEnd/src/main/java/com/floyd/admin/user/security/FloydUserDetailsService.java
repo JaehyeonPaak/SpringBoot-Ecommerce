@@ -1,6 +1,6 @@
-package com.floyd.admin.security;
+package com.floyd.admin.user.security;
 
-import com.floyd.admin.user.UserRepository;
+import com.floyd.admin.user.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

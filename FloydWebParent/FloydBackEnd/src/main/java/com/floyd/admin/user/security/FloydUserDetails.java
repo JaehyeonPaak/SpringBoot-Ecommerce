@@ -1,4 +1,4 @@
-package com.floyd.admin.security;
+package com.floyd.admin.user.security;
 
 import com.floyd.common.entity.Role;
 import com.floyd.common.entity.User;

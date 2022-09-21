@@ -1,4 +1,4 @@
-package com.floyd.admin.user;
+package com.floyd.admin.user.user;
 
 import com.floyd.common.entity.Role;
 import org.springframework.data.repository.CrudRepository;

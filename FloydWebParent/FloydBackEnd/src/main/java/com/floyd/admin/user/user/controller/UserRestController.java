@@ -1,9 +1,8 @@
-package com.floyd.admin.user.controller;
+package com.floyd.admin.user.user.controller;
 
-import com.floyd.admin.user.UserService;
+import com.floyd.admin.user.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

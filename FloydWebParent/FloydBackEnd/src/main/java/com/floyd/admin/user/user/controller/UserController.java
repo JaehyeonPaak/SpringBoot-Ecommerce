@@ -1,8 +1,8 @@
-package com.floyd.admin.user.controller;
+package com.floyd.admin.user.user.controller;
 
-import com.floyd.admin.FileUploadUtil;
-import com.floyd.admin.user.UserNotFoundException;
-import com.floyd.admin.user.UserService;
+import com.floyd.admin.user.FileUploadUtil;
+import com.floyd.admin.user.user.UserNotFoundException;
+import com.floyd.admin.user.user.UserService;
 import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.floyd.admin.security;
+package com.floyd.admin.user.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

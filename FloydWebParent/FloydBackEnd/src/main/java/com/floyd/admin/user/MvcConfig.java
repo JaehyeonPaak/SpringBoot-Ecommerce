@@ -1,4 +1,4 @@
-package com.floyd.admin;
+package com.floyd.admin.user;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

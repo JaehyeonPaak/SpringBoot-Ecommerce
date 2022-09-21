@@ -1,6 +1,6 @@
-package com.floyd.admin;
+package com.floyd.admin.user;
 
-import com.floyd.admin.user.UserRepository;
+import com.floyd.admin.user.user.UserRepository;
 import com.floyd.common.entity.Role;
 import com.floyd.common.entity.User;
 import org.junit.jupiter.api.Test;

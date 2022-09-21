@@ -1,6 +1,6 @@
-package com.floyd.admin;
+package com.floyd.admin.user;
 
-import com.floyd.admin.user.RoleRepository;
+import com.floyd.admin.user.user.RoleRepository;
 import com.floyd.common.entity.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
