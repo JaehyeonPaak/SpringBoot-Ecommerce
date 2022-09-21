@@ -1,11 +1,14 @@
 package com.floyd.admin.user.category;
 
+import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
+import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CategoryService {
@@ -85,5 +88,14 @@ public class CategoryService {
 
     public Category save(Category category) {
         return categoryRepository.save(category);
+    }
+
+    public Category get(Integer id) throws CategoryNotFoundException {
+        try {
+            return categoryRepository.findById(id).get();
+        }
+        catch (NoSuchElementException e) {
+            throw new CategoryNotFoundException("Could not find any category with ID " + id);
+        }
     }
 }

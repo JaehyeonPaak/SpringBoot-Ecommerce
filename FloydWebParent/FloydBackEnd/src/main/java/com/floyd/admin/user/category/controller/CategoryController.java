@@ -1,13 +1,16 @@
 package com.floyd.admin.user.category.controller;
 
 import com.floyd.admin.user.FileUploadUtil;
+import com.floyd.admin.user.category.CategoryNotFoundException;
 import com.floyd.admin.user.category.CategoryService;
+import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +50,7 @@ public class CategoryController {
             var filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             category.setImage(filename);
             var savedCategory = categoryService.save(category);
-            String uploadDir = "../category-image/" + savedCategory.getId();
+            String uploadDir = "../category-images/" + savedCategory.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, filename, multipartFile);
@@ -61,4 +64,22 @@ public class CategoryController {
         redirectAttributes.addFlashAttribute("message", "The category has been saved successfully!");
         return "redirect:/categories";
     }
+
+    @GetMapping("/categories/edit/{id}")
+    public String editCategory(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            var category = categoryService.get(id);
+            var categories = categoryService.listCategoriesUsedInForm();
+
+            model.addAttribute("category", category);
+            model.addAttribute("categories", categories);
+            model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
+
+            return "categories/category_form";
+        } catch (CategoryNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/categories";
+        }
+    }
+
 }
