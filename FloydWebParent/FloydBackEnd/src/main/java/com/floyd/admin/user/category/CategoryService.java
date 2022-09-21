@@ -27,7 +27,8 @@ public class CategoryService {
                 var children = category.getChildren();
                 for (Category subCategory : children) {
                     String name = "--" + subCategory.getName();
-                    categoriesUsedInForm.add(new Category(name));
+                    subCategory.setName(name);
+                    categoriesUsedInForm.add(subCategory);
                     listChildren(categoriesUsedInForm, subCategory, 1);
                 }
             }
@@ -50,4 +51,7 @@ public class CategoryService {
         }
     }
 
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
 }

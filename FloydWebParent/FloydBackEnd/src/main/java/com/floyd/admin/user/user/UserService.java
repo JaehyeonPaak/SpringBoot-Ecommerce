@@ -119,7 +119,6 @@ public class UserService {
         Sort sort = Sort.by(sortField);
         sort = (sortDir.equals("asc") ? sort.ascending() : sort.descending());
         Pageable pageable = PageRequest.of(pageNumber - 1, USERS_PER_PAGE, sort);
-
         if (keyword != null) {
             return userRepository.findAll(keyword, pageable);
         }
