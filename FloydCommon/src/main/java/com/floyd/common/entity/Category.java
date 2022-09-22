@@ -56,6 +56,25 @@ public class Category {
     }
 
     @Transient
+    public static Category copyCategory(Category category) {
+        Category copyCategory = new Category();
+        copyCategory.setId(category.getId());
+        copyCategory.setName(category.getName());
+        copyCategory.setAlias(category.getAlias());
+        copyCategory.setImage(category.getImage());
+        copyCategory.setEnabled(category.isEnabled());
+
+        return copyCategory;
+    }
+
+    public static Category copyCategory(Category subCategory, String name) {
+        var copyCategory = copyCategory(subCategory);
+        copyCategory.setName(name);
+
+        return copyCategory;
+    }
+
+    @Transient
     public String getImagePath() {
         if(this.id == null || this.image == null) {
             return "/images/image-thumbnail.png";

@@ -1,8 +1,6 @@
 package com.floyd.admin.user.category;
 
-import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
-import com.floyd.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -33,12 +31,11 @@ public class CategoryService {
     private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {
         List<Category> hierarchicalCategories = new ArrayList<>();
         for (Category rootCategory : rootCategories) {
-            hierarchicalCategories.add(rootCategory);
+            hierarchicalCategories.add(Category.copyCategory(rootCategory));
             var children = sortDir == null ? sortSubCategories(rootCategory.getChildren()) : sortSubCategories(rootCategory.getChildren(), sortDir);
             for (Category subCategory : children) {
                 String name = "--" + subCategory.getName();
-                subCategory.setName(name);
-                hierarchicalCategories.add(subCategory);
+                hierarchicalCategories.add(Category.copyCategory(subCategory, name));
 
                 listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1, sortDir);
             }
@@ -55,8 +52,8 @@ public class CategoryService {
                 name += "--";
             }
             name += subCategory.getName();
-            subCategory.setName(name);
-            hierarchicalCategories.add(subCategory);
+            hierarchicalCategories.add(Category.copyCategory(subCategory, name));
+
             listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel, sortDir);
         }
     }
@@ -67,12 +64,12 @@ public class CategoryService {
 
         for (Category category : categoriesInDB) {
             if (category.getParent() == null) {
-                categoriesUsedInForm.add(category);
+                categoriesUsedInForm.add(Category.copyCategory(category));
                 var children = sortSubCategories(category.getChildren());
                 for (Category subCategory : children) {
                     String name = "--" + subCategory.getName();
-                    subCategory.setName(name);
-                    categoriesUsedInForm.add(subCategory);
+                    categoriesUsedInForm.add(Category.copyCategory(subCategory, name));
+
                     listChildren(categoriesUsedInForm, subCategory, 1);
                 }
             }
