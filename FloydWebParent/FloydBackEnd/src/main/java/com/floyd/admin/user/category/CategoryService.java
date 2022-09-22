@@ -1,5 +1,6 @@
 package com.floyd.admin.user.category;
 
+import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -87,7 +88,7 @@ public class CategoryService {
                 name += "--";
             }
             name += subCategory.getName();
-            categoriesUsedInForm.add(new Category(name));
+            categoriesUsedInForm.add(Category.copyCategory(subCategory, name));
             listChildren(categoriesUsedInForm, subCategory, newSubLevel);
         }
     }
@@ -155,5 +156,13 @@ public class CategoryService {
 
     public void updateCategoryEnabledStatus(Integer id, boolean enabled) {
         categoryRepository.updateEnabledStatus(id, enabled);
+    }
+
+    public void delete(Integer id) throws CategoryNotFoundException {
+        Long count = categoryRepository.countById(id);
+        if(count == null | count == 0) {
+            throw new CategoryNotFoundException("Could not find any category with ID " + id);
+        }
+        categoryRepository.deleteById(id);
     }
 }

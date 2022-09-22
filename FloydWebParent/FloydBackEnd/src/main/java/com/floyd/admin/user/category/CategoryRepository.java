@@ -24,4 +24,6 @@ public interface CategoryRepository extends CrudRepository<Category, Integer>, P
     @Query("UPDATE Category c SET c.enabled = :enabled WHERE c.id = :id")
     @Modifying
     public void updateEnabledStatus(@Param("id") Integer id, @Param("enabled") boolean enabled);
+
+    public Long countById(Integer id);
 }

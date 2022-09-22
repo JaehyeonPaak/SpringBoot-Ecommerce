@@ -62,6 +62,20 @@ public class CategoryRepositoryTest {
         }
     }
 
+    @Test
+    public void testPrintHierarchicalSubCategories() {
+        Sort sort = Sort.by("name").ascending();
+        var rootCategories = categoryRepository.listRootCategories(sort);
+        for (Category category : rootCategories) {
+            System.out.println("Root category: " + category.getName() + " Children: " + category.getChildren().size());
+            if (category.getChildren().size() > 0) {
+                for (Category subCategory : category.getChildren()) {
+                    System.out.println("--" + subCategory.getName());
+                }
+            }
+        }
+    }
+
     private void printChildren(Category parent, int subLevel) {
         int newSubLevel = subLevel + 1;
         var children = parent.getChildren();

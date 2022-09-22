@@ -63,6 +63,7 @@ public class Category {
         copyCategory.setAlias(category.getAlias());
         copyCategory.setImage(category.getImage());
         copyCategory.setEnabled(category.isEnabled());
+        copyCategory.setChildren(category.getChildren());
 
         return copyCategory;
     }
