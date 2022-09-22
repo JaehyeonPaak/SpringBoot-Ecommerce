@@ -13,7 +13,7 @@ public class CategoryRestController {
     private CategoryService categoryService;
 
     @PostMapping("/categories/check_unique")
-    public void checkUnique(@Param("name") String name, @Param("alias") String alias) {
-
+    public String checkUnique(@Param("id") Integer id, @Param("name") String name, @Param("alias") String alias) {
+        return categoryService.checkUnique(id, name, alias);
     }
 }
