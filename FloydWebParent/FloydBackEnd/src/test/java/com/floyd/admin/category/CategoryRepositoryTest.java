@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testListRootCategories() {
-        var rootCategories = categoryRepository.listRootCategories();
+        var rootCategories = categoryRepository.listRootCategories(Sort.by("name").ascending());
         assertThat(rootCategories.size()).isEqualTo(1);
     }
 

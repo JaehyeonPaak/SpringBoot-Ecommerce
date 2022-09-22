@@ -6,6 +6,7 @@ import com.floyd.admin.user.category.CategoryService;
 import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,9 +26,15 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String listCategories(Model model) {
-        var listCategories = categoryService.listCategories();
+    public String listCategories(@Param("sortDir") String sortDir, Model model) {
+        if (sortDir == null) {
+            sortDir = "asc";
+        }
+        var listCategories = categoryService.listCategories(sortDir);
+        var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("listCategories", listCategories);
+        model.addAttribute("reverseDir", reverseDir);
+
         return "categories/categories";
     }
 
