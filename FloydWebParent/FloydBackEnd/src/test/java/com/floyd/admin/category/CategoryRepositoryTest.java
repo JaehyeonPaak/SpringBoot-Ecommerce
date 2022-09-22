@@ -78,4 +78,20 @@ public class CategoryRepositoryTest {
         var rootCategories = categoryRepository.listRootCategories();
         assertThat(rootCategories.size()).isEqualTo(1);
     }
+
+    @Test
+    public void testFindByName() {
+        String name = "Samsung Phone";
+        var category = categoryRepository.findByName(name);
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(name);
+    }
+
+    @Test
+    public void testFindByAlias() {
+        String alias = "Galaxy 8";
+        var category = categoryRepository.findByAlias(alias);
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(alias);
+    }
 }
