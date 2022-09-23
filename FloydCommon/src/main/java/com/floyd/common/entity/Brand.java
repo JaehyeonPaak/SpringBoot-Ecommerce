@@ -34,4 +34,12 @@ public class Brand {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @Transient
+    public String getLogoPath() {
+        if(this.id == null || this.logo == null) {
+            return "/images/image-thumbnail.png";
+        }
+        return "/brand-logos/" + this.id + "/" + this.logo;
+    }
 }
