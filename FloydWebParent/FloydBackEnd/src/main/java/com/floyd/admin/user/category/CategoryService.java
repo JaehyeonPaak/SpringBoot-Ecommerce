@@ -3,6 +3,9 @@ package com.floyd.admin.user.category;
 import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,9 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> listCategories(String sortDir) {
+    public static final int ROOT_CATEGORIES_PER_PAGE = 4;
+
+    public List<Category> listByPage(CategoryPageInfo categoryPageInfo, int pageNum, String sortDir, String keyword) {
         Sort sort = Sort.by("name");
         if (sortDir.equals("asc")) {
             sort = sort.ascending();
@@ -24,9 +29,25 @@ public class CategoryService {
         else {
             sort = sort.descending();
         }
-        var rootCategories = categoryRepository.listRootCategories(sort);
+        Pageable pageable = PageRequest.of(pageNum - 1, ROOT_CATEGORIES_PER_PAGE, sort);
+        Page<Category> pageCategories = null;
+        if (keyword != null) {
+            pageCategories = categoryRepository.search(keyword, pageable);
+        }
+        else {
+            pageCategories = categoryRepository.listRootCategories(pageable);
+        }
+        var rootCategories = pageCategories.getContent();
+        categoryPageInfo.setTotalPages(pageCategories.getTotalPages());
+        categoryPageInfo.setTotalElements(pageCategories.getNumberOfElements());
 
-        return listHierarchicalCategories(rootCategories, sortDir);
+        if (keyword != null) {
+            var searchResult = pageCategories.getContent();
+            return searchResult;
+        }
+        else {
+            return listHierarchicalCategories(rootCategories, sortDir);
+        }
     }
 
     private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {

@@ -68,7 +68,7 @@
   </div>
 
   <div class="text-center m-5" th:if="${totalItems > 0}">
-    <span>Showing [[${categoriesPerPage}]] categories of [[${totalItems}]] on page [[${currentPage}]]</span>
+    <span>Showing categories of [[${totalItems}]] on page [[${currentPage}]]</span>
     <nav>
       <ul class="justify-content-center pagination m-3">
         <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">

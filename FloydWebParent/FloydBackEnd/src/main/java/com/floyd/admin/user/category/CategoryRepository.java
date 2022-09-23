@@ -1,6 +1,8 @@
 package com.floyd.admin.user.category;
 
 import com.floyd.common.entity.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +19,9 @@ public interface CategoryRepository extends CrudRepository<Category, Integer>, P
     @Query("SELECT c FROM Category c WHERE c.parent IS NULL")
     public List<Category> listRootCategories(Sort sort);
 
+    @Query("SELECT c FROM Category c WHERE c.parent IS NULL")
+    public Page<Category> listRootCategories(Pageable pageable);
+
     public Category findByName(String name);
 
     public Category findByAlias(String alias);
@@ -26,4 +31,7 @@ public interface CategoryRepository extends CrudRepository<Category, Integer>, P
     public void updateEnabledStatus(@Param("id") Integer id, @Param("enabled") boolean enabled);
 
     public Long countById(Integer id);
+
+    @Query("SELECT c FROM Category c WHERE c.name LIKE %:keyword%")
+    public Page<Category> search(@Param("keyword") String keyword, Pageable pageable);
 }

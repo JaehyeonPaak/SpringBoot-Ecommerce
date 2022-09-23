@@ -2,6 +2,7 @@ package com.floyd.admin.user.category.controller;
 
 import com.floyd.admin.user.FileUploadUtil;
 import com.floyd.admin.user.category.CategoryNotFoundException;
+import com.floyd.admin.user.category.CategoryPageInfo;
 import com.floyd.admin.user.category.CategoryService;
 import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Category;
@@ -26,14 +27,27 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String listCategories(@Param("sortDir") String sortDir, Model model) {
+    public String listFirstPage(@Param("sortDir") String sortDir, Model model) {
+        return listByPage(1, sortDir, null, model);
+    }
+
+    @GetMapping("/categories/page/{pageNum}")
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum, @Param("sortDir") String sortDir, @Param("keyword") String keyword, Model model) {
         if (sortDir == null) {
             sortDir = "asc";
         }
-        var listCategories = categoryService.listCategories(sortDir);
+        CategoryPageInfo categoryPageInfo = new CategoryPageInfo();
+        var listCategories = categoryService.listByPage(categoryPageInfo, pageNum, sortDir, keyword);
         var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
+
         model.addAttribute("listCategories", listCategories);
         model.addAttribute("reverseDir", reverseDir);
+        model.addAttribute("totalItems", categoryPageInfo.getTotalElements());
+        model.addAttribute("totalPages", categoryPageInfo.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("categoriesPerPage", categoryService.ROOT_CATEGORIES_PER_PAGE);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortDir", sortDir);
 
         return "categories/categories";
     }
@@ -111,4 +125,5 @@ public class CategoryController {
         }
         return "redirect:/categories";
     }
+
 }

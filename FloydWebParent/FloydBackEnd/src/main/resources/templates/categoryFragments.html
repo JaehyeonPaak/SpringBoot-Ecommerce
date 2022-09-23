@@ -26,7 +26,7 @@
         <span th:class="${reverseDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
     </th>
 
-    <a th:fragment="page_link(pageNum, label)" class="page-link" th:href="@{'/categories/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword=' + ' '}}">
+    <a th:fragment="page_link(pageNum, label)" class="page-link" th:href="@{'/categories/page/' + ${pageNum} + '?sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
         [[${label}]]
     </a>
 
