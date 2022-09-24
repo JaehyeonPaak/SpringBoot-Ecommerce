@@ -59,9 +59,9 @@
                     </th:block>
                 </td>
                 <td>
-                    <a class="fa-solid fa-pen-to-square fa-2x icon-silver" href="" title="Edit this brand"></a>
+                    <a class="fa-solid fa-pen-to-square fa-2x icon-silver" th:href="@{'/brands/edit/' + ${brand.id}}" title="Edit this brand"></a>
                     &nbsp; &nbsp;
-                    <a class="fa-solid fa-trash fa-2x icon-silver link-delete" href="" title="Delete this brand"></a>
+                    <a class="fa-solid fa-trash fa-2x icon-silver link-delete" th:href="@{'/brands/delete/' + ${brand.id}}" th:brandId="${brand.id}" th:brandName="${brand.name}" title="Delete this brand"></a>
                 </td>
             </tr>
             </tbody>
@@ -95,31 +95,42 @@
 <!--        Brands not found-->
 <!--    </div>-->
 
-<!--    <div class="modal fade text-center" id="modalDialog">-->
-<!--        <div class="modal-dialog">-->
-<!--            <div class="modal-content">-->
+    <div class="modal fade text-center" id="modalDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-<!--                <div class="modal-header">-->
-<!--                    <h4 class="modal-title">Delete Confirmation</h4>-->
-<!--                </div>-->
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                </div>
 
-<!--                <div class="modal-body">-->
-<!--                    <span id="modalText"></span>-->
-<!--                </div>-->
+                <div class="modal-body">
+                    <span id="modalText"></span>
+                </div>
 
-<!--                <div class="modal-footer">-->
-<!--                    <a class="btn btn-success" href="" id="buttonDelete">Delete</a>-->
-<!--                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>-->
-<!--                </div>-->
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="buttonDelete">Delete</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
 
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+            </div>
+        </div>
+    </div>
 
     <div th:replace="fragments :: footer"></div>
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+      $(".link-delete").on("click", function(e) {
+        e.preventDefault();
+        brandId = $(this).attr("brandId");
+        brandName = $(this).attr("brandName");
+
+        $("#buttonDelete").attr("href", $(this).attr("href"));
+        $("#modalText").text("Are you sure you want to delete this brand ID " + brandId + "?");
+        $("#modalDialog").modal();
+      });
+    });
 </script>
 
 </body>

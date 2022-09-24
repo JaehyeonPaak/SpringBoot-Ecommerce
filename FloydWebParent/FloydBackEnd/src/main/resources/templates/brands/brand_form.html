@@ -99,6 +99,8 @@
       chosenCategories.empty();
       showChosenCategories();
     });
+
+    showChosenCategories();
   });
 
   function showChosenCategories() {
@@ -111,40 +113,36 @@
     });
   }
 
-<!--  function checkUnique(form) {-->
-<!--    url = "[[@{/categories/check_unique}]]";-->
-<!--    categoryId = $("#id").val();-->
-<!--    categoryName = $("#name").val();-->
-<!--    categoryAlias = $("#alias").val();-->
-<!--    csrf = $("input[name='_csrf']").val();-->
+  function checkUnique(form) {
+    url = "[[@{/brands/check_unique}]]";
+    brandId = $("#id").val();
+    brandName = $("#name").val();
+    csrf = $("input[name='_csrf']").val();
 
-<!--    params = {id: categoryId, name: categoryName, alias: categoryAlias, _csrf: csrf};-->
+    params = {id: brandId, name: brandName, _csrf: csrf};
 
-<!--    $.post(url, params, function(response) {-->
-<!--      if (response == "OK") {-->
-<!--        form.submit();-->
-<!--      }-->
-<!--      else if (response == "DuplicateName") {-->
-<!--        showModalDialog("Warning", "There is another category have the name " + categoryName);-->
-<!--      }-->
-<!--      else if (response == "DuplicateAlias") {-->
-<!--        showModalDialog("Warning", "There is another category have the alias " + categoryAlias);-->
-<!--      }-->
-<!--      else {-->
-<!--        showModalDialog("Error", "Unknown response from server");-->
-<!--      }-->
-<!--    }).fail(function() {-->
-<!--      showModalDialog("Error", "Could not connect to the server");-->
-<!--    });-->
+    $.post(url, params, function(response) {
+      if (response == "OK") {
+        form.submit();
+      }
+      else if (response == "DuplicateName") {
+        showModalDialog("Warning", "There is another brand have the name " + brandName);
+      }
+      else {
+        showModalDialog("Error", "Unknown response from server");
+      }
+    }).fail(function() {
+      showModalDialog("Error", "Could not connect to the server");
+    });
 
-<!--    return false;-->
-<!--  }-->
+    return false;
+  }
 
-<!--  function showModalDialog(title, message) {-->
-<!--    $("#modalTitle").text(title);-->
-<!--    $("#modalBody").text(message);-->
-<!--    $("#modalDialog").modal();-->
-<!--  }-->
+  function showModalDialog(title, message) {
+    $("#modalTitle").text(title);
+    $("#modalBody").text(message);
+    $("#modalDialog").modal();
+  }
 </script>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 </body>

@@ -1,7 +1,9 @@
 package com.floyd.admin.user.brand.controller;
 
 import com.floyd.admin.user.FileUploadUtil;
+import com.floyd.admin.user.brand.BrandNotFoundException;
 import com.floyd.admin.user.brand.BrandService;
+import com.floyd.admin.user.category.CategoryNotFoundException;
 import com.floyd.admin.user.category.CategoryService;
 import com.floyd.common.entity.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +65,36 @@ public class BrandController {
             brandService.save(brand);
         }
         redirectAttributes.addFlashAttribute("message", "The brand has been saved successfully!");
+        return "redirect:/brands";
+    }
+
+    @GetMapping("/brands/edit/{id}")
+    public String editBrand(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            var brand = brandService.get(id);
+            var listCategories = categoryService.listCategoriesUsedInForm();
+
+            model.addAttribute("brand", brand);
+            model.addAttribute("listCategories", listCategories);
+            model.addAttribute("pageTitle", "Edit Brand (ID: " + id + ")");
+
+            return "brands/brand_form";
+        } catch (BrandNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/brands";
+        }
+    }
+
+    @GetMapping("/brands/delete/{id}")
+    public String deleteBrand(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            brandService.deleteById(id);
+            String uploadDir = "../brand-logos/" + id;
+            FileUploadUtil.removeDir(uploadDir);
+            redirectAttributes.addFlashAttribute("message", "The brand has been deleted successfully!");
+        } catch (BrandNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
         return "redirect:/brands";
     }
 }
