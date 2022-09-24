@@ -60,7 +60,7 @@ public class BrandService {
         return "OK";
     }
 
-    public List<Brand> listByPage(BrandPageInfo brandPageInfo, int pageNum, String sortDir) {
+    public List<Brand> listByPage(BrandPageInfo brandPageInfo, int pageNum, String keyword, String sortDir) {
         Sort sort = Sort.by("name");
         if (sortDir.equals("asc")) {
             sort = sort.ascending();
@@ -69,7 +69,13 @@ public class BrandService {
             sort = sort.descending();
         }
         Pageable pageable = PageRequest.of(pageNum - 1, BRANDS_PER_PAGE, sort);
-        var pageBrands = brandRepository.listBrands(pageable);
+        Page<Brand> pageBrands = null;
+        if (keyword == null) {
+            pageBrands = brandRepository.listBrands(pageable);
+        }
+        else {
+            pageBrands = brandRepository.search(keyword, pageable);
+        }
         brandPageInfo.setTotalPages(pageBrands.getTotalPages());
         brandPageInfo.setTotalElements(pageBrands.getTotalElements());
         return pageBrands.getContent();

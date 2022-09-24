@@ -12,5 +12,8 @@ public interface BrandRepository extends PagingAndSortingRepository<Brand, Integ
     public Brand findByName(String name);
 
     @Query("SELECT b FROM Brand b")
-    Page<Brand> listBrands(Pageable pageable);
+    public Page<Brand> listBrands(Pageable pageable);
+
+    @Query("SELECT b FROM Brand b WHERE CONCAT(b.id, ' ', b.name) LIKE %:keyword%")
+    public Page<Brand> search(String keyword, Pageable pageable);
 }

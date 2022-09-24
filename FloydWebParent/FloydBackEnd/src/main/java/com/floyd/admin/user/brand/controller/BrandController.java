@@ -30,23 +30,24 @@ public class BrandController {
 
     @GetMapping("/brands")
     public String listAll(Model model) {
-        return listByPage(1, "asc", model);
+        return listByPage(1, "asc", null, model);
     }
 
     @GetMapping("/brands/page/{pageNum}")
-    public String listByPage(@PathVariable(name = "pageNum") int pageNum, @RequestParam(name = "sortDir") String sortDir, Model model) {
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum, @RequestParam(name = "sortDir") String sortDir, @RequestParam(name = "keyword") String keyword, Model model) {
         if (sortDir == null) {
             sortDir = "asc";
         }
         BrandPageInfo brandPageInfo = new BrandPageInfo();
         var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
-        var listBrands = brandService.listByPage(brandPageInfo, pageNum, sortDir);
+        var listBrands = brandService.listByPage(brandPageInfo, pageNum, keyword, sortDir);
         model.addAttribute("listBrands", listBrands);
         model.addAttribute("totalItems", brandPageInfo.getTotalElements());
         model.addAttribute("totalPages", brandPageInfo.getTotalPages());
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseDir", reverseDir);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("categoriesPerPage", categoryService.ROOT_CATEGORIES_PER_PAGE);
         return "brands/brands";
     }

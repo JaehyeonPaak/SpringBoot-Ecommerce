@@ -112,4 +112,14 @@ public class BrandRepositoryTest {
             System.out.println(brand.getName());
         }
     }
+
+    @Test
+    public void testSearch() {
+        String keyword = "Apple";
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageable = PageRequest.of(0, 5, sort);
+        var pageBrands = brandRepository.search(keyword, pageable);
+        var result = pageBrands.getContent();
+        assertThat(result.size()).isEqualTo(1);
+    }
 }
