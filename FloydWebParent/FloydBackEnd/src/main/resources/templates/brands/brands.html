@@ -38,7 +38,7 @@
             <tr>
                 <th>Brand ID</th>
                 <th>Logo</th>
-                <th>Brand Name</th>
+                <th th:replace="brandFragments :: column_link('name', 'Brand Name')"></th>
                 <th>Categories</th>
                 <th></th>
             </tr>
@@ -68,32 +68,32 @@
         </table>
     </div>
 
-<!--    <div class="text-center m-5" th:if="${totalItems > 0}">-->
-<!--        <span>Showing categories of [[${totalItems}]] on page [[${currentPage}]]</span>-->
-<!--        <nav>-->
-<!--            <ul class="justify-content-center pagination m-3">-->
-<!--                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">-->
-<!--                    <a th:replace="categoryFragments :: page_link(1, '<<<')"></a>-->
-<!--                </li>-->
-<!--                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">-->
-<!--                    <a th:replace="categoryFragments :: page_link(${currentPage - 1}, 'Previous')"></a>-->
-<!--                </li>-->
+    <div class="text-center m-5" th:if="${totalItems > 0}">
+        <span>Showing brands of [[${totalItems}]] on page [[${currentPage}]]</span>
+        <nav>
+            <ul class="justify-content-center pagination m-3">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="brandFragments :: page_link(1, '<<<')"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="brandFragments :: page_link(${currentPage - 1}, 'Previous')"></a>
+                </li>
 
-<!--                <li th:class="${currentPage == page ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(1, totalPages)}">-->
-<!--                    <a th:replace="categoryFragments :: page_link(${i}, ${i})"></a>-->
-<!--                </li>-->
+                <li th:class="${currentPage == page ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="brandFragments :: page_link(${i}, ${i})"></a>
+                </li>
 
-<!--                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">-->
-<!--                    <a th:replace="categoryFragments :: page_link(${currentPage + 1}, 'Next')"></a>-->
-<!--                </li>-->
-<!--                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">-->
-<!--                    <a th:replace="categoryFragments :: page_link(${totalPages}, '>>>')"></a></li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--    </div>-->
-<!--    <div class="text-center m-5" th:unless="${totalItems > 0}">-->
-<!--        Brands not found-->
-<!--    </div>-->
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="brandFragments :: page_link(${currentPage + 1}, 'Next')"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="brandFragments :: page_link(${totalPages}, '>>>')"></a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="text-center m-5" th:unless="${totalItems > 0}">
+        Brands not found
+    </div>
 
     <div class="modal fade text-center" id="modalDialog">
         <div class="modal-dialog">

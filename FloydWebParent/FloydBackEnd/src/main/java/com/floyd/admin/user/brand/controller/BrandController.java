@@ -1,9 +1,9 @@
 package com.floyd.admin.user.brand.controller;
 
 import com.floyd.admin.user.FileUploadUtil;
+import com.floyd.admin.user.brand.BrandPageInfo;
 import com.floyd.admin.user.brand.BrandNotFoundException;
 import com.floyd.admin.user.brand.BrandService;
-import com.floyd.admin.user.category.CategoryNotFoundException;
 import com.floyd.admin.user.category.CategoryService;
 import com.floyd.common.entity.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,24 @@ public class BrandController {
 
     @GetMapping("/brands")
     public String listAll(Model model) {
-        var listBrands = brandService.findAll();
-        model.addAttribute("listBrands", listBrands);
+        return listByPage(1, "asc", model);
+    }
 
+    @GetMapping("/brands/page/{pageNum}")
+    public String listByPage(@PathVariable(name = "pageNum") int pageNum, @RequestParam(name = "sortDir") String sortDir, Model model) {
+        if (sortDir == null) {
+            sortDir = "asc";
+        }
+        BrandPageInfo brandPageInfo = new BrandPageInfo();
+        var reverseDir = sortDir.equals("asc") ? "desc" : "asc";
+        var listBrands = brandService.listByPage(brandPageInfo, pageNum, sortDir);
+        model.addAttribute("listBrands", listBrands);
+        model.addAttribute("totalItems", brandPageInfo.getTotalElements());
+        model.addAttribute("totalPages", brandPageInfo.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseDir", reverseDir);
+        model.addAttribute("categoriesPerPage", categoryService.ROOT_CATEGORIES_PER_PAGE);
         return "brands/brands";
     }
 

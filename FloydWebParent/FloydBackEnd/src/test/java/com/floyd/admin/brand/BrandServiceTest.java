@@ -1,5 +1,6 @@
 package com.floyd.admin.brand;
 
+import com.floyd.admin.user.brand.BrandPageInfo;
 import com.floyd.admin.user.brand.BrandRepository;
 import com.floyd.admin.user.brand.BrandService;
 import com.floyd.common.entity.Brand;
@@ -9,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;

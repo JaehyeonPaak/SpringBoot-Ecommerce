@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
@@ -86,4 +89,27 @@ public class BrandRepositoryTest {
         assertThat(deletedBrand).isNull();
     }
 
+    @Test
+    public void testListBrandsAscending() {
+        int pageNum = 1;
+        Sort sort = Sort.by("name").ascending();
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sort);
+        var listBrands = brandRepository.listBrands(pageable);
+        var brands = listBrands.getContent();
+        for (Brand brand : brands) {
+            System.out.println(brand.getName());
+        }
+    }
+
+    @Test
+    public void testListBrandDescending() {
+        int pageNum = 1;
+        Sort sort = Sort.by("name").descending();
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sort);
+        var listBrands = brandRepository.listBrands(pageable);
+        var brands = listBrands.getContent();
+        for (Brand brand : brands) {
+            System.out.println(brand.getName());
+        }
+    }
 }

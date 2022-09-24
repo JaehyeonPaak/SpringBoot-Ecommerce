@@ -1,9 +1,11 @@
 package com.floyd.admin.user.brand;
 
-import com.floyd.admin.user.category.CategoryNotFoundException;
-import com.floyd.admin.user.user.UserNotFoundException;
 import com.floyd.common.entity.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.NoSuchElementException;
 
 @Service
 public class BrandService {
+
+    private static final int BRANDS_PER_PAGE = 5;
 
     @Autowired
     private BrandRepository brandRepository;
@@ -49,10 +53,25 @@ public class BrandService {
             }
         }
         else {
-            if (duplicateBrand != null) {
+            if (duplicateBrand != null && duplicateBrand.getId() != id) {
                 return "DuplicateName";
             }
         }
         return "OK";
+    }
+
+    public List<Brand> listByPage(BrandPageInfo brandPageInfo, int pageNum, String sortDir) {
+        Sort sort = Sort.by("name");
+        if (sortDir.equals("asc")) {
+            sort = sort.ascending();
+        }
+        else {
+            sort = sort.descending();
+        }
+        Pageable pageable = PageRequest.of(pageNum - 1, BRANDS_PER_PAGE, sort);
+        var pageBrands = brandRepository.listBrands(pageable);
+        brandPageInfo.setTotalPages(pageBrands.getTotalPages());
+        brandPageInfo.setTotalElements(pageBrands.getTotalElements());
+        return pageBrands.getContent();
     }
 }
