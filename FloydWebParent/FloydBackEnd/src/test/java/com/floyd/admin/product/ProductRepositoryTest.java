@@ -106,13 +106,13 @@ public class ProductRepositoryTest {
 
     @Test
     public void testSaveProductWithImages() {
-        Integer id = 5;
+        Integer id = 37;
         var product = productRepository.findById(id).get();
         product.setMainImage("main_image.png");
         product.addExtraImage("extra1.png");
         product.addExtraImage("extra2.png");
         product.addExtraImage("extra3.png");
         productRepository.save(product);
-        assertThat(product.getImages().size()).isEqualTo(12);
+        assertThat(product.getImages().size()).isEqualTo(3);
     }
 }

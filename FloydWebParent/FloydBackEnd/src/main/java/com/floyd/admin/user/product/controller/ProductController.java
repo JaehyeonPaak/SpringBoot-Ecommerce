@@ -59,30 +59,37 @@ public class ProductController {
         if (!mainImageMultipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(mainImageMultipartFile.getOriginalFilename());
             product.setMainImage(fileName);
+        }
+        if (extraImageMultipartFiles.length > 0) {
+            for (MultipartFile multipartFile : extraImageMultipartFiles) {
+                if (multipartFile.isEmpty()) {
+                    continue;
+                }
+                String extraFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                product.addExtraImage(extraFileName);
+            }
+        }
 
-            var savedProduct = productService.save(product);
+        var savedProduct = productService.save(product);
+
+        if (!mainImageMultipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipartFile.getOriginalFilename());
             String uploadDir = "../product-images/" + savedProduct.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipartFile);
-
-            if (extraImageMultipartFiles.length > 0) {
-                String uploadExtraDir = uploadDir + "/extras";
-                FileUploadUtil.cleanDir(uploadExtraDir);
-                for (MultipartFile multipartFile : extraImageMultipartFiles) {
-                    if (multipartFile.isEmpty()) {
-                        continue;
-                    }
-                    String extraFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-                    product.addExtraImage(extraFileName);
-                    FileUploadUtil.saveFile(uploadExtraDir, extraFileName, multipartFile);
+        }
+        if (extraImageMultipartFiles.length > 0) {
+            String uploadExtraDir = "../product-images/" + savedProduct.getId() + "/extras";
+            FileUploadUtil.cleanDir(uploadExtraDir);
+            for (MultipartFile multipartFile : extraImageMultipartFiles) {
+                if (multipartFile.isEmpty()) {
+                    continue;
                 }
+                String extraFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                FileUploadUtil.saveFile(uploadExtraDir, extraFileName, multipartFile);
             }
         }
-        else {
-            productService.save(product);
-        }
-
         redirectAttributes.addFlashAttribute("message", "The product has been saved successfully!");
         return "redirect:/products";
     }
