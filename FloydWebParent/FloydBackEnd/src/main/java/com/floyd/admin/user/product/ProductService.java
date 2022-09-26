@@ -41,4 +41,20 @@ public class ProductService {
         }
         productRepository.deleteById(id);
     }
+
+    public String checkUnique(Integer id, String name) {
+        boolean isCreating = (id == null || id == 0);
+        var duplicateName = productRepository.findByName(name);
+        if (isCreating) {
+            if (duplicateName != null) {
+                return "DuplicateName";
+            }
+        }
+        else {
+            if (duplicateName != null || duplicateName.getId() != id) {
+                return "DuplicateName";
+            }
+        }
+        return "OK";
+    }
 }

@@ -12,7 +12,7 @@
     <h1>Manage Products | [[${pageTitle}]]</h1>
   </div>
 
-  <form th:action="@{/products/save}" method="post" th:object="${product}">
+  <form th:action="@{/products/save}" method="post" th:object="${product}" onsubmit="return checkUnique(this)">
     <input type="hidden" th:field="*{id}">
     <div class="border border-secondary rounded p-3">
       <div>
@@ -86,40 +86,36 @@
 <script type="text/javascript">
   moduleURL = "[[@{/products}]]";
 
-<!--  function checkUnique(form) {-->
-<!--    url = "[[@{/categories/check_unique}]]";-->
-<!--    categoryId = $("#id").val();-->
-<!--    categoryName = $("#name").val();-->
-<!--    categoryAlias = $("#alias").val();-->
-<!--    csrf = $("input[name='_csrf']").val();-->
+  function checkUnique(form) {
+    url = "[[@{/products/check_unique}]]";
+    productId = $("#id").val();
+    productName = $("#name").val();
+    csrf = $("input[name='_csrf']").val();
 
-<!--    params = {id: categoryId, name: categoryName, alias: categoryAlias, _csrf: csrf};-->
+    params = {id: productId, name: productName, _csrf: csrf};
 
-<!--    $.post(url, params, function(response) {-->
-<!--      if (response == "OK") {-->
-<!--        form.submit();-->
-<!--      }-->
-<!--      else if (response == "DuplicateName") {-->
-<!--        showModalDialog("Warning", "There is another category have the name " + categoryName);-->
-<!--      }-->
-<!--      else if (response == "DuplicateAlias") {-->
-<!--        showModalDialog("Warning", "There is another category have the alias " + categoryAlias);-->
-<!--      }-->
-<!--      else {-->
-<!--        showModalDialog("Error", "Unknown response from server");-->
-<!--      }-->
-<!--    }).fail(function() {-->
-<!--      showModalDialog("Error", "Could not connect to the server");-->
-<!--    });-->
+    $.post(url, params, function(response) {
+      if (response == "OK") {
+        form.submit();
+      }
+      else if (response == "DuplicateName") {
+        showModalDialog("Warning", "There is another product have the name " + productName);
+      }
+      else {
+        showModalDialog("Error", "Unknown response from server");
+      }
+    }).fail(function() {
+      showModalDialog("Error", "Could not connect to the server");
+    });
 
-<!--    return false;-->
-<!--  }-->
+    return false;
+  }
 
-<!--  function showModalDialog(title, message) {-->
-<!--    $("#modalTitle").text(title);-->
-<!--    $("#modalBody").text(message);-->
-<!--    $("#modalDialog").modal();-->
-<!--  }-->
+  function showModalDialog(title, message) {
+    $("#modalTitle").text(title);
+    $("#modalBody").text(message);
+    $("#modalDialog").modal();
+  }
 </script>
 <script type="text/javascript" th:src="@{/js/common_form.js}"></script>
 </body>
