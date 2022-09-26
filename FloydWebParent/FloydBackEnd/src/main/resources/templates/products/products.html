@@ -123,17 +123,17 @@
     $(document).ready(function() {
       $(".link-delete").on("click", function(e) {
         e.preventDefault();
-        brandId = $(this).attr("brandId");
-        brandName = $(this).attr("brandName");
+        productId = $(this).attr("productId");
+        productName = $(this).attr("productName");
 
         $("#buttonDelete").attr("href", $(this).attr("href"));
-        $("#modalText").text("Are you sure you want to delete this brand ID " + brandId + "?");
+        $("#modalText").text("Are you sure you want to delete this product ID " + productId + "?");
         $("#modalDialog").modal();
       });
     });
 
     function clearFilter() {
-      window.location = "[[@{/brands}]]";
+      window.location = "[[@{/products}]]";
     }
 </script>
 

@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body th:fragment="content" th:remove="tag">
     <div>
-        <label>Short Description</label>
+        <label><strong>Short Description</strong></label>
         <textarea class="form-control" th:field="*{shortDescription}" rows="5" required></textarea>
     </div>
 
     <div>
-        <label>Full Description</label>
+        <label><strong>Full Description</strong></label>
         <textarea class="form-control" th:field="*{fullDescription}" rows="10" required></textarea>
     </div>
 <script>
