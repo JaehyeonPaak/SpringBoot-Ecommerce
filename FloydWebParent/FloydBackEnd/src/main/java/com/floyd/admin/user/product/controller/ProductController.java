@@ -51,16 +51,33 @@ public class ProductController {
     }
 
     @PostMapping("/products/save")
-    public String saveProduct(Product product, RedirectAttributes redirectAttributes, @RequestParam(name = "fileImage") MultipartFile multipartFile) throws IOException {
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    public String saveProduct(
+            Product product,
+            RedirectAttributes redirectAttributes,
+            @RequestParam(name = "fileImage") MultipartFile mainImageMultipartFile,
+            @RequestParam(name = "extraImage") MultipartFile[] extraImageMultipartFiles) throws IOException {
+        if (!mainImageMultipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(mainImageMultipartFile.getOriginalFilename());
             product.setMainImage(fileName);
 
             var savedProduct = productService.save(product);
             String uploadDir = "../product-images/" + savedProduct.getId();
 
             FileUploadUtil.cleanDir(uploadDir);
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+            FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipartFile);
+
+            if (extraImageMultipartFiles.length > 0) {
+                String uploadExtraDir = uploadDir + "/extras";
+                FileUploadUtil.cleanDir(uploadExtraDir);
+                for (MultipartFile multipartFile : extraImageMultipartFiles) {
+                    if (multipartFile.isEmpty()) {
+                        continue;
+                    }
+                    String extraFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                    product.addExtraImage(extraFileName);
+                    FileUploadUtil.saveFile(uploadExtraDir, extraFileName, multipartFile);
+                }
+            }
         }
         else {
             productService.save(product);
@@ -73,6 +90,11 @@ public class ProductController {
     @GetMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
         try {
+            String productExtraImagesDir = "../product-images/" + id + "/extras";
+            String productImagesDir = "../product-images/" + id;
+            FileUploadUtil.removeDir(productExtraImagesDir);
+            FileUploadUtil.removeDir(productImagesDir);
+
             productService.deleteById(id);
             redirectAttributes.addFlashAttribute("message", "The product has been deleted successfully!");
         } catch (ProductNotFoundException e) {
