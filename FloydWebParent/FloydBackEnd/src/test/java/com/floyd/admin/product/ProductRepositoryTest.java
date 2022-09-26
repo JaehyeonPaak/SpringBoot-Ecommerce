@@ -5,6 +5,7 @@ import com.floyd.admin.user.product.ProductRepository;
 import com.floyd.common.entity.Brand;
 import com.floyd.common.entity.Category;
 import com.floyd.common.entity.Product;
+import com.floyd.common.entity.ProductImage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -101,5 +102,17 @@ public class ProductRepositoryTest {
         productRepository.deleteById(id);
         var product = productRepository.findById(id).orElse(null);
         assertThat(product).isNull();
+    }
+
+    @Test
+    public void testSaveProductWithImages() {
+        Integer id = 5;
+        var product = productRepository.findById(id).get();
+        product.setMainImage("main_image.png");
+        product.addExtraImage("extra1.png");
+        product.addExtraImage("extra2.png");
+        product.addExtraImage("extra3.png");
+        productRepository.save(product);
+        assertThat(product.getImages().size()).isEqualTo(12);
     }
 }
