@@ -56,7 +56,7 @@
            '</div>';
 
     index2 = index - 1;
-    htmlLinkRemove = '<a class="btn fas fa-times-circle fa-2x icon-dark float-right title="Remove this image" href="javascript:removeExtraImage(' + index2 + ')"></a>';
+    htmlLinkRemove = '<a class="btn fas fa-times-circle fa-2x icon-dark float-right" title="Remove this image" href="javascript:removeExtraImage(' + index2 + ')"></a>';
 
     $("#divProductImages").append(htmlExtraImage);
 

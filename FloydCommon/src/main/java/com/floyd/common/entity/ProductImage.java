@@ -30,4 +30,8 @@ public class ProductImage {
         this.name = imageName;
         this.product = product;
     }
+
+    public String getImagePath() {
+        return "/product-images/" + product.getId() + "/extras/" + this.name;
+    }
 }

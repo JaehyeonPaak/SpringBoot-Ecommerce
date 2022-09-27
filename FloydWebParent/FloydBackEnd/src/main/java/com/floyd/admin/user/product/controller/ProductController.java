@@ -46,6 +46,7 @@ public class ProductController {
         model.addAttribute("pageTitle", "Create New Product");
         model.addAttribute("product", product);
         model.addAttribute("listBrands", listBrands);
+        model.addAttribute("numberOfExcistingExtraImages", 0);
 
         return "/products/product_form";
     }
@@ -55,7 +56,18 @@ public class ProductController {
             Product product,
             RedirectAttributes redirectAttributes,
             @RequestParam(name = "fileImage") MultipartFile mainImageMultipartFile,
-            @RequestParam(name = "extraImage") MultipartFile[] extraImageMultipartFiles) throws IOException {
+            @RequestParam(name = "extraImage") MultipartFile[] extraImageMultipartFiles,
+            @RequestParam(name = "detailNames", required = false) String[] detailNames,
+            @RequestParam(name = "detailValues", required = false) String[] detailValues) throws IOException {
+        if (detailNames != null && detailNames.length != 0) {
+            for (int count = 0; count < detailNames.length; count++) {
+                String name = detailNames[count];
+                String value = detailValues[count];
+                if (!name.isEmpty() && !value.isEmpty()) {
+                    product.addDetails(name, value);
+                }
+            }
+        }
         if (!mainImageMultipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(mainImageMultipartFile.getOriginalFilename());
             product.setMainImage(fileName);
@@ -117,5 +129,27 @@ public class ProductController {
         String message = (enabled ? "The product ID " + id + " has been enabled" : "The product ID " + id + " has been disabled");
         redirectAttributes.addFlashAttribute("message", message);
         return "redirect:/products";
+    }
+
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            var product = productService.get(id);
+            var listBrands = brandService.findAll();
+            Integer numberOfExcistingExtraImages = 0;
+            if (product.getImages() != null) {
+                numberOfExcistingExtraImages = product.getImages().size();
+            }
+            model.addAttribute("pageTitle", "Edit Product (ID: " + id + ")");
+            model.addAttribute("product", product);
+            model.addAttribute("listBrands", listBrands);
+            model.addAttribute("numberOfExcistingExtraImages", numberOfExcistingExtraImages);
+
+            return "products/product_form";
+        } catch (ProductNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/products";
+        }
+
     }
 }
