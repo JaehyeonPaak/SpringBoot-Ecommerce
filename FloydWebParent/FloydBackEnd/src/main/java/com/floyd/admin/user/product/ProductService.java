@@ -54,7 +54,7 @@ public class ProductService {
             }
         }
         else {
-            if (duplicateName != null || duplicateName.getId() != id) {
+            if (duplicateName != null && duplicateName.getId() != id) {
                 return "DuplicateName";
             }
         }

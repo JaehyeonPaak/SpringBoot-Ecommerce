@@ -6,7 +6,10 @@ import com.floyd.admin.user.product.ProductNotFoundException;
 import com.floyd.admin.user.product.ProductService;
 import com.floyd.common.entity.Category;
 import com.floyd.common.entity.Product;
+import com.floyd.common.entity.ProductImage;
 import org.apache.tomcat.util.log.SystemLogHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class ProductController {
@@ -29,6 +37,8 @@ public class ProductController {
 
     @Autowired
     private BrandService brandService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
     public String listAll(Model model) {
@@ -57,13 +67,31 @@ public class ProductController {
             RedirectAttributes redirectAttributes,
             @RequestParam(name = "fileImage") MultipartFile mainImageMultipartFile,
             @RequestParam(name = "extraImage") MultipartFile[] extraImageMultipartFiles,
+            @RequestParam(name = "detailIDs", required = false) String[] detailIDs,
             @RequestParam(name = "detailNames", required = false) String[] detailNames,
-            @RequestParam(name = "detailValues", required = false) String[] detailValues) throws IOException {
+            @RequestParam(name = "detailValues", required = false) String[] detailValues,
+            @RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+            @RequestParam(name = "imageNames", required = false) String[] imageNames) throws IOException {
+        if (imageIDs != null && imageNames.length != 0) {
+            Set<ProductImage> images = new HashSet<>();
+            for (int count = 0; count < imageIDs.length; count++) {
+                Integer id = Integer.parseInt(imageIDs[count]);
+                String name = imageNames[count];
+                if (id != null && !name.isEmpty()) {
+                    images.add(new ProductImage(id, name, product));
+                }
+                product.setImages(images);
+            }
+        }
         if (detailNames != null && detailNames.length != 0) {
             for (int count = 0; count < detailNames.length; count++) {
                 String name = detailNames[count];
                 String value = detailValues[count];
-                if (!name.isEmpty() && !value.isEmpty()) {
+                Integer id = Integer.parseInt(detailIDs[count]);
+                if (id != 0) {
+                    product.addDetails(id, name, value);
+                }
+                else if (!name.isEmpty() && !value.isEmpty()) {
                     product.addDetails(name, value);
                 }
             }
@@ -78,7 +106,9 @@ public class ProductController {
                     continue;
                 }
                 String extraFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-                product.addExtraImage(extraFileName);
+                if (!product.containsImageName(extraFileName)) {
+                    product.addExtraImage(extraFileName);
+                }
             }
         }
 
@@ -102,6 +132,28 @@ public class ProductController {
                 FileUploadUtil.saveFile(uploadExtraDir, extraFileName, multipartFile);
             }
         }
+
+        String extraImageDir = "../product-images" + product.getId() + "/extras";
+        Path dirPath = Paths.get(extraImageDir);
+
+        try {
+            Files.list(dirPath).forEach(file -> {
+                String filename = file.toFile().getName();
+                if (!product.containsImageName(filename)) {
+                    try {
+                        Files.delete(file);
+                        LOGGER.info("Deleted extra image: " + filename);
+                    }
+                    catch (IOException e) {
+                        LOGGER.error("Could not delete extra image: " + filename);
+                    }
+                }
+            });
+        }
+        catch (IOException e) {
+            LOGGER.error("Could not list directory: " + dirPath);
+        }
+
         redirectAttributes.addFlashAttribute("message", "The product has been saved successfully!");
         return "redirect:/products";
     }

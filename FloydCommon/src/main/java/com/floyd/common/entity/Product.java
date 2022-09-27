@@ -66,10 +66,10 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<ProductImage> images = new HashSet<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProductDetail> details = new ArrayList<>();
 
     @Transient
@@ -81,6 +81,12 @@ public class Product {
     public void addDetails(String name, String value) {
         this.details.add(new ProductDetail(name, value, this));
     }
+
+    @Transient
+    public void addDetails(Integer id, String name, String value) {
+        this.details.add(new ProductDetail(id, name, value, this));
+    }
+
     @Transient
     public String getMainImagePath() {
         if(this.id == null || this.mainImage == null) {
@@ -88,4 +94,16 @@ public class Product {
         }
         return "/product-images/" + this.id + "/" + this.mainImage;
     }
+
+    public boolean containsImageName(String extraFileName) {
+        Iterator<ProductImage> iterator = images.iterator();
+        while (iterator.hasNext()) {
+            ProductImage image = iterator.next();
+            if (image.getName().equals(extraFileName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
