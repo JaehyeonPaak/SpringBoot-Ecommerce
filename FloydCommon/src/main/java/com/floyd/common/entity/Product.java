@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -71,11 +69,18 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ProductImage> images = new HashSet<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ProductDetail> details = new ArrayList<>();
+
     @Transient
     public void addExtraImage(String imageName) {
         this.images.add(new ProductImage(imageName, this));
     }
 
+    @Transient
+    public void addDetails(String name, String value) {
+        this.details.add(new ProductDetail(name, value, this));
+    }
     @Transient
     public String getMainImagePath() {
         if(this.id == null || this.mainImage == null) {

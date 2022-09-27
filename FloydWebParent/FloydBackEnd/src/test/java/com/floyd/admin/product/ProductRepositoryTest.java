@@ -2,10 +2,7 @@ package com.floyd.admin.product;
 
 import com.floyd.admin.user.FloydBackEndApplication;
 import com.floyd.admin.user.product.ProductRepository;
-import com.floyd.common.entity.Brand;
-import com.floyd.common.entity.Category;
-import com.floyd.common.entity.Product;
-import com.floyd.common.entity.ProductImage;
+import com.floyd.common.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -114,5 +111,15 @@ public class ProductRepositoryTest {
         product.addExtraImage("extra3.png");
         productRepository.save(product);
         assertThat(product.getImages().size()).isEqualTo(3);
+    }
+
+    @Test
+    public void testSaveProductWithDetails() {
+        Integer id = 43;
+        var product = productRepository.findById(id).get();
+        product.addDetails("Apple", "is amazing");
+        product.addDetails("Apple watch", "is brilliant");
+        productRepository.save(product);
+        assertThat(product.getDetails().size()).isEqualTo(2);
     }
 }
