@@ -1,16 +1,16 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="fragments :: header('Products - Floyd Admin')"></head>
 
 <body>
 <div class="container-fluid">
-
     <div th:replace="fragments :: menu"></div>
-
     <div>
         <h1>Manage Products</h1>
-        <a th:href="@{/products/new}">Create New Product</a>
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+            <a th:href="@{/products/new}">Create New Product</a>
+        </th:block>
     </div>
 
     <div th:if="${message != null}" class="alert alert-success text-center">
@@ -41,7 +41,9 @@
                 <th th:replace="productFragments :: column_link('name', 'Product Name')"></th>
                 <th>Brand</th>
                 <th>Category</th>
-                <th>Enabled</th>
+                <th>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">Enabled</th:block>
+                </th>
                 <th></th>
             </tr>
             </thead>
@@ -58,15 +60,21 @@
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
                 <td>
-                    <a th:if="${product.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-cadetblue" th:href="@{'/products/' + ${product.id} + '/enabled/false'}" title="Disable this product"></a>
-                    <a th:if="${product.enabled == false}" class="fa-solid fa-circle fa-2x icon-silver" th:href="@{'/products/' + ${product.id} + '/enabled/true'}" title="Enable this product"></a>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <a th:if="${product.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-cadetblue" th:href="@{'/products/' + ${product.id} + '/enabled/false'}" title="Disable this product"></a>
+                        <a th:if="${product.enabled == false}" class="fa-solid fa-circle fa-2x icon-silver" th:href="@{'/products/' + ${product.id} + '/enabled/true'}" title="Enable this product"></a>
+                    </th:block>
                 </td>
                 <td>
                     <a class="fa-solid fa-file-alt fa-2x icon-silver link-detail" th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
                     &nbsp; &nbsp;
-                    <a class="fa-solid fa-pen-to-square fa-2x icon-silver" th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor', 'Salesperson')">
+                        <a class="fa-solid fa-pen-to-square fa-2x icon-silver" th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a>
+                    </th:block>
                     &nbsp; &nbsp;
-                    <a class="fa-solid fa-trash fa-2x icon-silver link-delete" th:href="@{'/products/delete/' + ${product.id}}" th:productId="${product.id}" th:productName="${product.name}" title="Delete this product"></a>
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <a class="fa-solid fa-trash fa-2x icon-silver link-delete" th:href="@{'/products/delete/' + ${product.id}}" th:productId="${product.id}" th:productName="${product.name}" title="Delete this product"></a>
+                    </th:block>
                 </td>
             </tr>
             </tbody>

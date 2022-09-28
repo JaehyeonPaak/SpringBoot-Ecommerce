@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body th:fragment="content" th:remove="tag">
+    <div>
+        <label><strong>Short Description</strong></label>
+        <textarea class="form-control" th:field="*{shortDescription}" rows="5" required readonly></textarea>
+    </div>
+
+    <div>
+        <label><strong>Full Description</strong></label>
+        <textarea class="form-control" th:field="*{fullDescription}" rows="10" required readonly></textarea>
+    </div>
+<script>
+    $(document).ready(function() {
+        $("#shortDescription").richText();
+        $("#fullDescription").richText();
+    });
+</script>
+</body>
+</html>
