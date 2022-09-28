@@ -122,4 +122,13 @@ public class ProductRepositoryTest {
         productRepository.save(product);
         assertThat(product.getDetails().size()).isEqualTo(2);
     }
+
+    @Test
+    public void testProductDetailsList() {
+        Integer id = 48;
+        var product = productRepository.findById(id).get();
+        for (ProductDetail detail : product.getDetails()) {
+            System.out.println(detail.getName());
+        }
+    }
 }

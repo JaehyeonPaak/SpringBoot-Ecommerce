@@ -52,7 +52,9 @@
                     <span th:if="${product.mainImage == null}" class="fa-solid fa-image-portrait fa-3x icon-silver"></span>
                     <image th:if="${product.mainImage != null}" class="img-fluid" style="width: 100px" th:src="@{${product.getMainImagePath()}}"></image>
                 </td>
-                <td>[[${product.name}]]</td>
+                <td>
+                    <a class="link-detail" th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product">[[${product.name}]]</a>
+                </td>
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
                 <td>
@@ -60,7 +62,7 @@
                     <a th:if="${product.enabled == false}" class="fa-solid fa-circle fa-2x icon-silver" th:href="@{'/products/' + ${product.id} + '/enabled/true'}" title="Enable this product"></a>
                 </td>
                 <td>
-                    <a class="fa-solid fa-file-alt fa-2x icon-silver" th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
+                    <a class="fa-solid fa-file-alt fa-2x icon-silver link-detail" th:href="@{'/products/detail/' + ${product.id}}" title="View details of this product"></a>
                     &nbsp; &nbsp;
                     <a class="fa-solid fa-pen-to-square fa-2x icon-silver" th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a>
                     &nbsp; &nbsp;
@@ -101,7 +103,6 @@
     <div class="modal fade text-center" id="modalDialog">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h4 class="modal-title">Delete Confirmation</h4>
                 </div>
@@ -114,7 +115,13 @@
                     <a class="btn btn-success" href="" id="buttonDelete">Delete</a>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade text-center" id="detailModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
             </div>
         </div>
     </div>
@@ -132,6 +139,12 @@
         $("#buttonDelete").attr("href", $(this).attr("href"));
         $("#modalText").text("Are you sure you want to delete this product ID " + productId + "?");
         $("#modalDialog").modal();
+      });
+
+      $(".link-detail").on("click", function(e) {
+        e.preventDefault();
+        linkDetailUrl = $(this).attr("href");
+        $("#detailModal").modal("show").find(".modal-content").load(linkDetailUrl);
       });
     });
 
