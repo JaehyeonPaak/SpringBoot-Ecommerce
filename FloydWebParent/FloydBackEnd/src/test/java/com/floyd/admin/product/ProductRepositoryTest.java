@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
@@ -130,5 +133,28 @@ public class ProductRepositoryTest {
         for (ProductDetail detail : product.getDetails()) {
             System.out.println(detail.getName());
         }
+    }
+
+    @Test
+    public void testSearchWithoutKeyword() {
+        Sort sort = Sort.by("id");
+        Pageable pageable = PageRequest.of(0, 10, sort);
+        var result = productRepository.findAll(pageable).getContent();
+        System.out.println(result.size());
+        for (Product product : result) {
+            System.out.println(product.getName() + " " + product.getId());
+        }
+    }
+
+    @Test
+    public void testSearchWithKeyword() {
+        String keyword = "Galaxy";
+        Sort sort = Sort.by("id");
+        Pageable pageable = PageRequest.of(0, 4, sort);
+        var result = productRepository.findAll(keyword, pageable).getContent();
+        for (Product product : result) {
+            System.out.println(product.getName() + " " + product.getId());
+        }
+        //assertThat(result.size()).isEqualTo(3);
     }
 }

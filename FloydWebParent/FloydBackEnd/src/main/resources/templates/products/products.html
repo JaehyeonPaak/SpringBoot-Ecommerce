@@ -9,7 +9,7 @@
     <div th:replace="fragments :: menu"></div>
 
     <div>
-        <h1>Manage Brands</h1>
+        <h1>Manage Products</h1>
         <a th:href="@{/products/new}">Create New Product</a>
     </div>
 
@@ -18,7 +18,7 @@
     </div>
 
     <div>
-        <form th:action="@{/brands/page/1}" class="form-inline m-2" method="get">
+        <form th:action="@{/products/page/1}" class="form-inline m-2" method="get">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
 
@@ -36,9 +36,9 @@
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="thead-dark">
             <tr>
-                <th>ID</th>
+                <th th:replace="productFragments :: column_link('id', 'ID')"></th>
                 <th>Main Image</th>
-                <th>Product Name</th>
+                <th th:replace="productFragments :: column_link('name', 'Product Name')"></th>
                 <th>Brand</th>
                 <th>Category</th>
                 <th>Enabled</th>
@@ -78,21 +78,21 @@
         <nav>
             <ul class="justify-content-center pagination m-3">
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="brandFragments :: page_link(1, '<<<')"></a>
+                    <a th:replace="productFragments :: page_link(1, '<<<')"></a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="brandFragments :: page_link(${currentPage - 1}, 'Previous')"></a>
+                    <a th:replace="productFragments :: page_link(${currentPage - 1}, 'Previous')"></a>
                 </li>
 
                 <li th:class="${currentPage == page ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a th:replace="brandFragments :: page_link(${i}, ${i})"></a>
+                    <a th:replace="productFragments :: page_link(${i}, ${i})"></a>
                 </li>
 
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="brandFragments :: page_link(${currentPage + 1}, 'Next')"></a>
+                    <a th:replace="productFragments :: page_link(${currentPage + 1}, 'Next')"></a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="brandFragments :: page_link(${totalPages}, '>>>')"></a></li>
+                    <a th:replace="productFragments :: page_link(${totalPages}, '>>>')"></a></li>
             </ul>
         </nav>
     </div>

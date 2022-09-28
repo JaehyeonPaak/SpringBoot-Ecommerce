@@ -11,6 +11,7 @@ import org.apache.tomcat.util.log.SystemLogHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -41,8 +43,28 @@ public class ProductController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("/products")
-    public String listAll(Model model) {
-        var listProducts = productService.listAll();
+    public String listFirstPage(Model model) {
+        return listByPage(1, model, "id", "asc", null);
+    }
+
+    @GetMapping("/products/page/{pageNum}")
+    public String listByPage(
+            @PathVariable(name = "pageNum") int pageNum,
+            Model model,
+            @RequestParam(name = "sortField") String sortField,
+            @RequestParam(name = "sortDir") String sortDir,
+            @RequestParam(name = "keyword") String keyword) {
+        var page = productService.listByPage(pageNum, sortField, sortDir, keyword);
+        var listProducts = page.getContent();
+        String reverseDir = sortDir.equals("asc") ? "desc" : "asc";
+
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseDir", reverseDir);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("listProducts", listProducts);
         return "/products/products";
     }
@@ -88,11 +110,15 @@ public class ProductController {
                 String name = detailNames[count];
                 String value = detailValues[count];
                 Integer id = Integer.parseInt(detailIDs[count]);
-                if (id != 0 || id != null) {
-                    product.addDetails(id, name, value);
+                if (id != 0) {
+                    if (!name.isEmpty() && !value.isEmpty()) {
+                        product.addDetails(id, name, value);
+                    }
                 }
-                else if (!name.isEmpty() && !value.isEmpty()) {
-                    product.addDetails(name, value);
+                else {
+                    if (!name.isEmpty() && !value.isEmpty()) {
+                        product.addDetails(name, value);
+                    }
                 }
             }
         }
