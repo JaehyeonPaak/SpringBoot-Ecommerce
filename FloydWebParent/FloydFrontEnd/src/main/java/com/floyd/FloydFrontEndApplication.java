@@ -1,4 +1,4 @@
-package com.floyd.site;
+package com.floyd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
