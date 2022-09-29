@@ -25,6 +25,21 @@
         </div>
     </div>
 
+    <div class="row text-center">
+        <th:block th:each="category : ${category.children}">
+            <div class="col text-center m-3">
+                <a th:href="@{'/c/' + ${category.alias}}">
+                    <div class="col" th:if="${category.enabled == true}">
+                        <img th:src="@{${category.getImagePath()}}" width="160">
+                    </div>
+                    <div>
+                        <strong>[[${category.name}]]</strong>
+                    </div>
+                </a>
+            </div>
+        </th:block>
+    </div>
+
     <div class="row">
         <th:block th:each="product : ${listProducts}">
             <div class="col text-center m-3">
@@ -33,6 +48,14 @@
                 </div>
                 <div>
                     <strong>[[${product.name}]]</strong>
+                </div>
+                <div th:if="${product.getDiscountPrice() <= 0}">
+                    <strong><span style="font-size: larger; color: green;"> $ [[${product.price}]] </span></strong>
+                </div>
+                <div th:if="${product.getDiscountPrice() > 0}">
+                    <strong><span style="font-size: larger; color: green;"> $ [[${product.getDiscountPrice()}]] </span></strong>
+                    &nbsp;
+                    <del><span> $ [[${product.price}]] </span></del>
                 </div>
             </div>
         </th:block>

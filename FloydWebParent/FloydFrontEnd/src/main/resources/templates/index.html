@@ -9,12 +9,12 @@
         <h1>Shopping By Categories</h1>
     </div>
     <div class="row">
-        <div class="col" th:each="category : ${listCategories}">
+        <div class="col m-3 text-center" th:each="category : ${listCategories}">
             <div>
                 <img width="80" th:src="@{${category.getImagePath()}}">
             </div>
             <div>
-                <a th:href="@{'/c/' + ${category.alias}}">[[${category.name}]]</a>
+                <strong><a th:href="@{'/c/' + ${category.alias}}">[[${category.name}]]</a></strong>
             </div>
         </div>
     </div>
