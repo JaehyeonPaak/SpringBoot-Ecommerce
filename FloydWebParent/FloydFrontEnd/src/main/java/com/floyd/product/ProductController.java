@@ -22,7 +22,10 @@ public class ProductController {
         if (category == null) {
             return "error/404";
         }
+        var listCategoryParents = categoryService.getCategoryParents(category);
+
         model.addAttribute("pageTitle", category.getName());
+        model.addAttribute("listCategoryParents", listCategoryParents);
 
         return "products_by_category";
     }

@@ -29,4 +29,15 @@ public class CategoryService {
         return categoryRepository.findByAliasEnabled(alias);
     }
 
+    public List<Category> getCategoryParents(Category child) {
+        List<Category> listParents = new ArrayList<>();
+        var parents = child.getParent();
+        while (parents != null) {
+            listParents.add(0, parents);
+            parents = parents.getParent();
+        }
+        listParents.add(child);
+
+        return listParents;
+    }
 }
