@@ -27,6 +27,9 @@ public class Category {
     @Column(length = 128, nullable = false)
     private String image;
 
+    @Column(name = "all_parent_ids", length = 256)
+    private String allParentIDs;
+
     private boolean enabled;
 
     @OneToOne

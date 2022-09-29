@@ -25,6 +25,46 @@
         </div>
     </div>
 
+    <div class="row">
+        <th:block th:each="product : ${listProducts}">
+            <div class="col text-center m-3">
+                <div>
+                    <img th:src="@{${product.getMainImagePath()}}" width="160">
+                </div>
+                <div>
+                    <strong>[[${product.name}]]</strong>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="text-center m-5" th:if="${totalItems > 0}">
+        <span>Showing products of [[${totalItems}]] on page [[${currentPage}]]</span>
+        <nav>
+            <ul class="justify-content-center pagination m-3">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="fragments :: page_link(1, '<<<')"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
+                </li>
+
+                <li th:class="${currentPage == page ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="fragments :: page_link(${i}, ${i})"></a>
+                </li>
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="fragments :: page_link(${totalPages}, '>>>')"></a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="text-center m-5" th:unless="${totalItems > 0}">
+        Products not found
+    </div>
+
     <div th:replace="fragments :: footer_menu"></div>
 </body>
 </html>
