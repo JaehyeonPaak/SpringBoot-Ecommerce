@@ -26,4 +26,11 @@ public class CategoryRepositoryTest {
         }
     }
 
+    @Test
+    public void testFindCategoryByAlias() {
+        String alias = "galaxy_8";
+        var category = categoryRepository.findByAliasEnabled(alias);
+        System.out.println(category.getName());
+        assertThat(category.getAlias()).isEqualTo(alias);
+    }
 }

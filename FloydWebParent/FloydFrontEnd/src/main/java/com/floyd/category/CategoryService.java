@@ -24,4 +24,9 @@ public class CategoryService {
         }
         return listNoChildrenCategories;
     }
+
+    public Category getCategory(String alias) {
+        return categoryRepository.findByAliasEnabled(alias);
+    }
+
 }
