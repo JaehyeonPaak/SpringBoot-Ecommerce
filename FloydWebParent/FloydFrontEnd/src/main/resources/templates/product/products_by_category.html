@@ -43,12 +43,13 @@
     <div class="row">
         <th:block th:each="product : ${listProducts}">
             <div class="col text-center m-3">
-                <div>
-                    <img th:src="@{${product.getMainImagePath()}}" width="160">
-                </div>
-                <div>
-                    <strong>[[${product.name}]]</strong>
-                </div>
+                <a th:href="@{'/p/' + ${product.alias}}">
+                    <div>
+                        <img th:src="@{${product.getMainImagePath()}}" width="160">
+                        <br>
+                        <strong>[[${product.name}]]</strong>
+                    </div>
+                </a>
                 <div th:if="${product.getDiscountPrice() <= 0}">
                     <strong><span style="font-size: larger; color: green;"> $ [[${product.price}]] </span></strong>
                 </div>

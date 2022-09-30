@@ -17,4 +17,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 
     @Query("SELECT p FROM Product p WHERE p.enabled = true AND (p.category.id = :category_id OR p.category.allParentIDs LIKE %:category_id_match%) ORDER BY p.name ASC")
     public Page<Product> listByCategory(@Param("category_id") Integer categoryId, @Param("category_id_match") String categoryIDMatch, Pageable pageable);
+
+    public Product findByAlias(String alias);
 }

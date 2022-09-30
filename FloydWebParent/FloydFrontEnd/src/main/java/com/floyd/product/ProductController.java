@@ -1,6 +1,8 @@
 package com.floyd.product;
 
+import com.floyd.category.CategoryNotFoundException;
 import com.floyd.category.CategoryService;
+import com.floyd.common.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,22 +25,38 @@ public class ProductController {
 
     @GetMapping("/c/{category_alias}/page/{pageNum}")
     public String viewCategoryByPage(@PathVariable(name = "category_alias") String alias, @PathVariable(name = "pageNum") int pageNum, Model model) {
-        var category = categoryService.getCategory(alias);
-        if (category == null) {
+        try {
+            Category category = categoryService.getCategory(alias);
+            var listCategoryParents = categoryService.getCategoryParents(category);
+            var pageProducts = productService.listByCategory(pageNum, category.getId());
+            var listProducts = pageProducts.getContent();
+
+            model.addAttribute("pageTitle", category.getName());
+            model.addAttribute("listProducts", listProducts);
+            model.addAttribute("listCategoryParents", listCategoryParents);
+            model.addAttribute("category", category);
+            model.addAttribute("currentPage", pageNum);
+            model.addAttribute("totalPages", pageProducts.getTotalPages());
+            model.addAttribute("totalItems", pageProducts.getTotalElements());
+
+            return "product/products_by_category";
+        } catch (CategoryNotFoundException e) {
             return "error/404";
         }
-        var listCategoryParents = categoryService.getCategoryParents(category);
-        var pageProducts = productService.listByCategory(pageNum, category.getId());
-        var listProducts = pageProducts.getContent();
+    }
 
-        model.addAttribute("pageTitle", category.getName());
-        model.addAttribute("listProducts", listProducts);
-        model.addAttribute("listCategoryParents", listCategoryParents);
-        model.addAttribute("category", category);
-        model.addAttribute("currentPage", pageNum);
-        model.addAttribute("totalPages", pageProducts.getTotalPages());
-        model.addAttribute("totalItems", pageProducts.getTotalElements());
+    @GetMapping("/p/{product_alias}")
+    public String viewProductDetail(@PathVariable(name = "product_alias") String alias, Model model) {
+        try {
+            var product = productService.getProduct(alias);
+            var listCategoryParents = categoryService.getCategoryParents(product.getCategory());
+            model.addAttribute("pageTitle", product.getName());
+            model.addAttribute("product", product);
+            model.addAttribute("listCategoryParents", listCategoryParents);
 
-        return "products_by_category";
+            return "product/product_detail";
+        } catch (ProductNotFoundException e) {
+            return "error/404";
+        }
     }
 }

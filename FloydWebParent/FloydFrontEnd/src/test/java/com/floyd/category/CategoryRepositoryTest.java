@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(value = false)
 public class CategoryRepositoryTest {
 
     @Autowired

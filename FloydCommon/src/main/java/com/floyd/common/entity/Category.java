@@ -1,6 +1,7 @@
 package com.floyd.common.entity;
 
 import lombok.*;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @OrderBy("name asc")
     private Set<Category> children = new HashSet<>();
 
     public Category(String name, String alias, String image) {
