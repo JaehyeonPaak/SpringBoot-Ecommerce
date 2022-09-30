@@ -2,6 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments :: header(${pageTitle})"></head>
+<style>
+    .box{
+        border: 1px solid;
+        border-radius: 10px;
+    }
+</style>
 
 <body>
 <div th:replace="fragments :: header_menu"></div>
@@ -31,10 +37,21 @@
 
 <div class="row">
     <div class="col-sm">
-        <div>
-            <img th:src="@{${product.getMainImagePath()}}" width="280" class="img-fluid">
+        <div class="text-center">
+            <img id="mainImage" th:src="@{${product.getMainImagePath()}}" width="280" class="img-fluid">
+        </div>
+        <div class="row justify-content-center">
+            <div class="m-2 box" >
+                <img class="image-thumbnail p-1" th:src="@{${product.getMainImagePath()}}" width="90">
+            </div>
+            <th:block th:each="extraImage : ${product.images}">
+                <div class="m-2 box">
+                    <img class="image-thumbnail p-1" th:src="@{${extraImage.getImagePath()}}" width="90">
+                </div>
+            </th:block>
         </div>
     </div>
+
     <div class="col-sm-6">
         <div class="mb-1">
             <h2> [[${product.name}]] </h2>
@@ -99,5 +116,16 @@
 </div>
 
 <div th:replace="fragments :: footer_menu"></div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        mainImage = $("#mainImage");
+
+        $(".image-thumbnail").mouseover(function() {
+            currentImageSource = $(this).attr("src");
+            mainImage.attr("src", currentImageSource);
+        });
+    });
+</script>
 </body>
 </html>
