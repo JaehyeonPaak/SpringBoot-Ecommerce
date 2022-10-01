@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProductController {
@@ -58,5 +59,25 @@ public class ProductController {
         } catch (ProductNotFoundException e) {
             return "error/404";
         }
+    }
+
+    @GetMapping("/search")
+    public String searchFirstPage(@RequestParam("keyword") String keyword, Model model) {
+        return searchByPage(1, keyword, model);
+    }
+
+    @GetMapping("/search/page/{pageNum}")
+    public String searchByPage(@PathVariable("pageNum") int pageNum, @RequestParam("keyword") String keyword, Model model) {
+        var pageProducts = productService.search(keyword, pageNum);
+        var listProducts = pageProducts.getContent();
+
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("listProducts", listProducts);
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", pageProducts.getTotalPages());
+        model.addAttribute("totalItems", pageProducts.getTotalElements());
+        model.addAttribute("pageTitle", keyword + " - Search Result");
+
+        return "product/search_result";
     }
 }

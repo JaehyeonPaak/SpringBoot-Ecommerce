@@ -6,41 +6,10 @@
 <body>
     <div th:replace="fragments :: header_menu"></div>
     <div th:replace="fragments :: search_nav"></div>
-    <div th:if="${listCategoryParents != null && !listCategoryParents.empty}">
-        <div class="row">
-            <div class="col">
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a th:href="@{/}"> Home </a>
-                        </li>
-
-                        <th:block th:each="parent : ${listCategoryParents}">
-                            <li class="breadcrumb-item">
-                                <a th:href="@{'/c/' + ${parent.alias}}"> [[${parent.name}]] </a>
-                            </li>
-                        </th:block>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+    <div>
+        <h2 th:if="${totalItems > 0}" class="m-2">Search results for <b>'[[${keyword}]]'</b></h2>
+        <h2 th:unless="${totalItems > 0}" class="m-2">No match found for <b>'[[${keyword}]]'</b></h2>
     </div>
-
-    <div class="row text-center">
-        <th:block th:each="category : ${category.children}">
-            <div class="col text-center m-3">
-                <a th:href="@{'/c/' + ${category.alias}}">
-                    <div class="col" th:if="${category.enabled == true}">
-                        <img th:src="@{${category.getImagePath()}}" width="160">
-                    </div>
-                    <div>
-                        <strong>[[${category.name}]]</strong>
-                    </div>
-                </a>
-            </div>
-        </th:block>
-    </div>
-
     <div class="row">
         <th:block th:each="product : ${listProducts}">
             <div class="col text-center m-3">
@@ -64,31 +33,30 @@
     </div>
 
     <div class="text-center m-5" th:if="${totalItems > 0}">
-        <span>Showing products of [[${totalItems}]] on page [[${currentPage}]]</span>
+        <span>Showing search results of [[${totalItems}]] on page [[${currentPage}]]</span>
         <nav>
             <ul class="justify-content-center pagination m-3">
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="fragments :: page_link(1, '<<<')"></a>
+                    <a class="page-link" th:href="@{'/search/page/1' + '?keyword=' + ${keyword}}"> <<< </a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
+                    <a class="page-link" th:href="@{'/search/page/' + ${currentPage - 1} + '?keyword=' + ${keyword}}"> Previous </a>
                 </li>
-
                 <li th:class="${currentPage == page ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a th:replace="fragments :: page_link(${i}, ${i})"></a>
-                </li>
-
-                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
+                    <a th:fragment="page_link(pageNum, label)" class="page-link" th:href="@{'/search/page/' + ${i} + '?keyword=' + ${keyword}}"> [[${i}]] </a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="fragments :: page_link(${totalPages}, '>>>')"></a></li>
+                    <a th:fragment="page_link(pageNum, label)" class="page-link" th:href="@{'/search/page/' + ${currentPage + 1} + '?keyword=' + ${keyword}}"> Next </a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a class="page-link" th:href="@{'/search/page/' + ${totalPages} + '?keyword=' + ${keyword}}"> >>> </a>
+                </li>
             </ul>
         </nav>
     </div>
 
     <div class="text-center m-5" th:unless="${totalItems > 0}">
-        Products not found
+        Search results not found
     </div>
 
     <div th:replace="fragments :: footer_menu"></div>
