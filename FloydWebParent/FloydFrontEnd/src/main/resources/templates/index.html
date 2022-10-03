@@ -2,20 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments :: header('Floyd')"></head>
-
+<style>
+    .box{
+        border: 1px solid;
+        border-radius: 10px;
+    }
+</style>
 <body>
     <div th:replace="fragments :: header_menu"></div>
     <div th:replace="fragments :: search_nav"></div>
     <div>
-        <h1>Shopping By Categories</h1>
+        <h1 class="ml-2"> Shopping By Categories </h1>
     </div>
     <div class="row">
-        <div class="col m-3 text-center" th:each="category : ${listCategories}">
-            <div>
-                <img width="80" th:src="@{${category.getImagePath()}}">
-            </div>
-            <div>
-                <strong><a th:href="@{'/c/' + ${category.alias}}">[[${category.name}]]</a></strong>
+        <div class="m-3 text-center" th:each="category : ${listCategories}">
+            <div class="box m-3">
+                <a th:href="@{'/c/' + ${category.alias}}">
+                    <div class="p-2">
+                        <img height="100px" th:src="@{${category.getImagePath()}}">
+                    </div>
+                    <div>
+                        <strong> [[${category.name}]] </strong>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
