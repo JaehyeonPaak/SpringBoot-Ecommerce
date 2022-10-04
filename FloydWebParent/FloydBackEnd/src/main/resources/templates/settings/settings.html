@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: header(${pageTitle})"></head>
+
+<body>
+<div class="container-fluid">
+
+  <div th:replace="fragments :: menu"></div>
+
+  <div>
+    <h1>Manage Products | [[${pageTitle}]]</h1>
+  </div>
+
+  <div th:if="${message != null}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
+
+  <div class="border border-secondary rounded p-3">
+    <div>
+      <ul class="nav nav-tabs" id="settingTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#general" role="tab">General</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#countries" role="tab">Countries</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#states" role="tab">States</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#mailServer" role="tab">Mail Server</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#mailTemplates" role="tab">Mail Templates</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active p-3" id="general" role="tabpanel">
+          <h1> General </h1>
+          <div th:replace="settings/general :: content"></div>
+        </div>
+        <div class="tab-pane" id="countries" role="tabpanel">
+          <h1> Countries </h1>
+        </div>
+        <div class="tab-pane" id="states" role="tabpanel">
+          <h1> States </h1>
+        </div>
+        <div class="tab-pane" id="mailServer" role="tabpanel">
+          <h1> Mail Server </h1>
+        </div>
+        <div class="tab-pane" id="mailTemplates" role="tabpanel">
+          <h1> Mail Templates </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="fragments :: footer"></div>
+
+</div>
+<script th:src="@{/js/common_form.js}"></script>
+</body>
+</html>

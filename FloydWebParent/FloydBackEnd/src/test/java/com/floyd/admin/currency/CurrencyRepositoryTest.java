@@ -33,4 +33,13 @@ public class CurrencyRepositoryTest {
         var savedCurrencies = currencyRepository.saveAll(listCurrencies);
         assertThat(savedCurrencies).isNotNull();
     }
+
+    @Test
+    public void testListAllOrderByNameAsc() {
+        var currencies = currencyRepository.findAllByOrderByNameAsc();
+        for (Currency currency : currencies) {
+            System.out.println(currency.getName());
+        }
+        assertThat(currencies).size().isGreaterThan(0);
+    }
 }
