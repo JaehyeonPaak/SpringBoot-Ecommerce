@@ -22,7 +22,7 @@
     <div th:fragment="header_menu">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <a class="navbar-brand" th:href="@{/}">
-                <img th:src="@{/images/logo-transparent.png}">
+                <img th:src="@{${SITE_LOGO}}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,7 @@
             </div>
         </nav>
         <div th:fragment="footer" class="text-center m-3">
-            <p>Floyd - Copyright &copy; Floyd Ltd.</p>
+            <p> [[${COPYRIGHT}]] </p>
         </div>
     </div>
 </body>

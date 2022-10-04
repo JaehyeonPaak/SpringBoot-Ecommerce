@@ -45,6 +45,6 @@ public class Setting {
 
     @Override
     public String toString() {
-        return "Setting{" + "key='" + key + '\'' + ", value='" + value + '}';
+        return "Setting{" + "key='" + key + '\'' + ", value='" + value + "'}";
     }
 }

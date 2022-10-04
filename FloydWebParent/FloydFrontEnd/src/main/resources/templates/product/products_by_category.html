@@ -52,10 +52,18 @@
                     </div>
                 </a>
                 <div th:if="${product.getDiscountPrice() <= 0}">
-                    <strong><span style="font-size: larger; color: green;"> $ [[${product.price}]] </span></strong>
+                    <strong><span style="font-size: larger; color: green;">
+                        <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag"> [[${CURRENCY_SYMBOL}]] </span>
+                        [[${#numbers.formatDecimal(product.price, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+                        <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag"> [[${CURRENCY_SYMBOL}]] </span>
+                    </span></strong>
                 </div>
                 <div th:if="${product.getDiscountPrice() > 0}">
-                    <strong><span style="font-size: larger; color: green;"> $ [[${product.getDiscountPrice()}]] </span></strong>
+                    <strong><span style="font-size: larger; color: green;">
+                        <span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+                        [[${#numbers.formatDecimal(product.price, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]
+                        <span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+                    </span></strong>
                     &nbsp;
                     <del><span> $ [[${product.price}]] </span></del>
                 </div>
