@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,8 +32,19 @@ public class StateRepositoryTest {
     public void testCreateStatesInUSA() {
         Integer id = 13;
         var country = entityManager.find(Country.class, id);
-        State state = stateRepository.save(new State("New York", country));
+        var states = List.of(new State("California", country), new State("Washington", country), new State("Texas", country));
+        stateRepository.saveAll(states);
 //        country.setStates(Set.of(state));
 //        assertThat(country.getStates()).size().isGreaterThan(0);
+    }
+
+    @Test
+    public void testListStatesByCountry() {
+        Integer id = 13;
+        var country = entityManager.find(Country.class, id);
+        var states = stateRepository.findByCountryOrderByNameAsc(country);
+        states.forEach(state -> {
+            System.out.println(state.getName());
+        });
     }
 }
