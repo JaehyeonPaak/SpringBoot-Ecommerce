@@ -38,21 +38,28 @@
 
       <div class="tab-content">
         <div class="tab-pane active p-3" id="general" role="tabpanel">
-          <h1> General </h1>
           <div th:replace="settings/general :: content"></div>
         </div>
-        <div class="tab-pane" id="countries" role="tabpanel">
-          <h1> Countries </h1>
+        <div class="tab-pane p-3" id="countries" role="tabpanel">
+          <div th:replace="settings/country :: content"></div>
         </div>
-        <div class="tab-pane" id="states" role="tabpanel">
+        <div class="tab-pane p-3" id="states" role="tabpanel">
           <h1> States </h1>
         </div>
-        <div class="tab-pane" id="mailServer" role="tabpanel">
+        <div class="tab-pane p-3" id="mailServer" role="tabpanel">
           <h1> Mail Server </h1>
         </div>
-        <div class="tab-pane" id="mailTemplates" role="tabpanel">
+        <div class="tab-pane p-3" id="mailTemplates" role="tabpanel">
           <h1> Mail Templates </h1>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast justify-content-center p-3 m-2" role="alert" aria-live="polite" aria-atomic="true" data-delay="3000">
+    <div role="alert" aria-live="assertive" aria-atomic="true">
+      <div>
+        <span id="toastMessage"></span>
       </div>
     </div>
   </div>
@@ -60,6 +67,12 @@
   <div th:replace="fragments :: footer"></div>
 
 </div>
+<script>
+  contextPath = "[[@{/}]]";
+  var csrfHeaderName = "[[${_csrf.HeaderName}]]";
+  var csrfValue = "[[${_csrf.token}]]";
+</script>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/country_setting.js}"></script>
 </body>
 </html>
