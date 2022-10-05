@@ -9,8 +9,6 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "countries")
@@ -18,12 +16,18 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Integer id;
 
     @Column(nullable = false, length = 45)
+    @Getter
+    @Setter
     private String name;
 
     @Column(nullable = false, length = 4)
+    @Getter
+    @Setter
     private String code;
 
     @OneToMany(mappedBy = "country")
@@ -38,5 +42,13 @@ public class Country {
     public Country(String name, String code) {
         this.name = name;
         this.code = code;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                '}';
     }
 }
