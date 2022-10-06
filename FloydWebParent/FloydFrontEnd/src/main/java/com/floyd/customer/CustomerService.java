@@ -19,4 +19,9 @@ public class CustomerService {
     public List<Country> listAllCountries() {
         return countryRepository.findAllByOrderByNameAsc();
     }
+
+    public boolean isEmailUnique(String email) {
+        var customer = customerRepository.findByEmail(email);
+        return customer == null;
+    }
 }
