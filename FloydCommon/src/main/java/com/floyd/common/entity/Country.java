@@ -33,6 +33,9 @@ public class Country {
     @OneToMany(mappedBy = "country")
     private Set<State> states;
 
+    @OneToMany(mappedBy = "country")
+    private Set<Customer> customers;
+
     public Country(String name, String code, Set<State> state) {
         this.name = name;
         this.code = code;
