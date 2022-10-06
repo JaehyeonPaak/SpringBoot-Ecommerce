@@ -1,22 +1,20 @@
-package com.floyd.admin.customer;
+package com.floyd.customer;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.customer.CustomerRepository;
 import com.floyd.common.entity.Country;
 import com.floyd.common.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = FloydBackEndApplication.class)
+@DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
 public class CustomerRepositoryTest {

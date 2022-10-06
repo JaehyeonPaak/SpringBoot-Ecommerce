@@ -1,4 +1,4 @@
-package com.floyd.admin.user.customer;
+package com.floyd.customer;
 
 import com.floyd.common.entity.Customer;
 import org.springframework.data.jpa.repository.Modifying;
