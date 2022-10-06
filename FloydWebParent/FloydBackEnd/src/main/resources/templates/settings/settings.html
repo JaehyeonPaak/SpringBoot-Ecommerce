@@ -44,7 +44,7 @@
           <div th:replace="settings/country :: content"></div>
         </div>
         <div class="tab-pane p-3" id="states" role="tabpanel">
-          <h1> States </h1>
+          <div th:replace="settings/state :: content"></div>
         </div>
         <div class="tab-pane p-3" id="mailServer" role="tabpanel">
           <h1> Mail Server </h1>
@@ -74,5 +74,6 @@
 </script>
 <script th:src="@{/js/common_form.js}"></script>
 <script th:src="@{/js/country_setting.js}"></script>
+<script th:src="@{/js/state_setting.js}"></script>
 </body>
 </html>
