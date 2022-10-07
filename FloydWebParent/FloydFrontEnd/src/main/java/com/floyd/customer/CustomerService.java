@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class CustomerService {
 
     @Autowired
@@ -44,5 +46,16 @@ public class CustomerService {
     private void encodePassword(Customer customer) {
         var encodedPassword = passwordEncoder.encode(customer.getPassword());
         customer.setPassword(encodedPassword);
+    }
+
+    public boolean verify(String verificationCode) {
+        var customer = customerRepository.findByVerificationCode(verificationCode);
+        if (customer == null || customer.isEnabled()) {
+            return false;
+        }
+        else {
+            customerRepository.enable(customer.getId());
+            return true;
+        }
     }
 }
