@@ -69,6 +69,10 @@ function updateCountry() {
     countryCode = fieldCountryCode.val();
     countryId = dropDownCountries.val().split("-")[0];
 
+    if (validateFormCountry()) {
+        return;
+    }
+
     jsonData = {id: countryId, name: countryName, code: countryCode};
     $.ajax({
         type: 'POST',
@@ -90,11 +94,25 @@ function updateCountry() {
     });
 }
 
+function validateFormCountry() {
+    formCountry = $("#formCountry");
+    if (!formCountry.checkValidity()) {
+        formCountry.reportValidity();
+        return false;
+    }
+    return true;
+}
+
 function addCountry() {
     url = contextPath + "countries/save";
     countryName = fieldCountryName.val();
     countryCode = fieldCountryCode.val();
     jsonData = {name: countryName, code: countryCode};
+
+    if (validateFormCountry()) {
+        return;
+    }
+
     $.ajax({
         type: 'POST',
         url: url,

@@ -80,6 +80,10 @@ function updateState() {
     countryId = selectedCountry.val().split("-")[0];
     countryName = selectedCountry.text();
 
+    if (validateFormState()) {
+        return;
+    }
+
     jsonData = {id: stateId, name: stateName, country: {id: countryId, name: countryName}};
 
     $.ajax({
@@ -100,6 +104,15 @@ function updateState() {
     });
 }
 
+function validateFormState() {
+    formState = $("#formState");
+    if (!formState.checkValidity()) {
+        formState.reportValidity();
+        return false;
+    }
+    return true;
+}
+
 function addState() {
     url = contextPath + "states/save";
     stateName = fieldStateName.val();
@@ -108,6 +121,10 @@ function addState() {
     countryId = selectedCountry.val().split("-")[0];
     countryName = selectedCountry.text();
     jsonData = {name: stateName, country: {id: countryId, name: countryName}};
+
+    if (validateFormState()) {
+        return;
+    }
 
     $.ajax({
         type: 'POST',
