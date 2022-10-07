@@ -42,9 +42,4 @@ public class Setting {
     public int hashCode() {
         return Objects.hash(key);
     }
-
-    @Override
-    public String toString() {
-        return "Setting{" + "key='" + key + '\'' + ", value='" + value + "'}";
-    }
 }
