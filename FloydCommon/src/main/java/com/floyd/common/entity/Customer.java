@@ -61,4 +61,9 @@ public class Customer {
 
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
+
+    @Transient
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
 }

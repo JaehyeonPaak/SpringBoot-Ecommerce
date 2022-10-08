@@ -1,7 +1,6 @@
 package com.floyd.admin.setting;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.setting.SettingRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Setting;
 import com.floyd.common.entity.SettingCategory;
 import org.junit.jupiter.api.Test;

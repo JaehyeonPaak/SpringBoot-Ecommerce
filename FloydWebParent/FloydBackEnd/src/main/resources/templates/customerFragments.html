@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+  <th th:fragment="column_link(fieldName, columnName)">
+    <a th:href="@{'/customers/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${reverseDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword=' + ' '}}" class="text-white">
+      [[${columnName}]]
+    </a>
+    <span th:if="${sortField == fieldName}" th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+  </th>
+
+  <a th:fragment="page_link(pageNum, label)" class="page-link" th:href="@{'/customers/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword=' + ' '}}">
+    [[${label}]]
+  </a>
+</body>
+</html>

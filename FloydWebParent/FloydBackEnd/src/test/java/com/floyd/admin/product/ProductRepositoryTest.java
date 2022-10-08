@@ -1,7 +1,6 @@
 package com.floyd.admin.product;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.product.ProductRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

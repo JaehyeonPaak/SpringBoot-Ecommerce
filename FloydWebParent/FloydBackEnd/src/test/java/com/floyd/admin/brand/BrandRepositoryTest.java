@@ -1,14 +1,11 @@
 package com.floyd.admin.brand;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.brand.BrandRepository;
-import com.floyd.admin.user.category.CategoryRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Brand;
 import com.floyd.common.entity.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

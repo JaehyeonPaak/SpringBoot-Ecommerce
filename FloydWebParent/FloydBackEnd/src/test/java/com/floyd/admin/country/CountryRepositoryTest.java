@@ -1,9 +1,7 @@
 package com.floyd.admin.country;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.country.CountryRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Country;
-import com.floyd.common.entity.State;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
-import java.util.Set;
 
 @SpringBootTest(classes = FloydBackEndApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

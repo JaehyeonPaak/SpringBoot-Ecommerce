@@ -1,7 +1,6 @@
 package com.floyd.admin.currency;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.currency.CurrencyRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Currency;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

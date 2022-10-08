@@ -85,9 +85,12 @@
                         </li>
                     </th:block>
 
-                    <li class="nav-item" sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
-                        <a class="nav-link" th:href="@{/customers}">Customers</a>
-                    </li>
+                    <th:block>
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
+                            <a class="nav-link" th:href="@{/customers}">Customers</a>
+                        </li>
+                    </th:block>
+
                     <li class="nav-item" sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
                         <a class="nav-link" th:href="@{/shipping}">Shipping</a>
                     </li>

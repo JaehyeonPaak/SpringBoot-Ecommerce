@@ -1,19 +1,16 @@
 package com.floyd.admin.state;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.state.StateRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Country;
 import com.floyd.common.entity.State;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

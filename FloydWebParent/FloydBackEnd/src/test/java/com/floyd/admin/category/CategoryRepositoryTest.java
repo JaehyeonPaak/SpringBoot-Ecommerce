@@ -1,7 +1,6 @@
 package com.floyd.admin.category;
 
-import com.floyd.admin.user.FloydBackEndApplication;
-import com.floyd.admin.user.category.CategoryRepository;
+import com.floyd.admin.FloydBackEndApplication;
 import com.floyd.common.entity.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
