@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: header('Floyd - ' + ${SITE_NAME})"></head>
+<style>
+    .box{
+        border: 1px solid;
+        border-radius: 10px;
+    }
+</style>
+<body>
+<div th:replace="fragments :: header_menu"></div>
+<div>
+    <h1 class="ml-2"> Customer Login </h1>
+</div>
+<form th:action="@{/login}" method="post">
+    <div class="border border-secondary rounded p-3" style="max-width: 350px; margin: 0 auto">
+        <p>Access to Floyd Control Panel</p>
+        <p>
+            <input type="email" name="email" class="form-control" placeholder="E-Mail" required>
+        </p>
+        <p>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </p>
+        <p>
+            <input type="checkbox" name="remember-me"> Remember Me
+        </p>
+        <div th:if="${param.error != null}">
+            <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+        </div>
+        <div th:if="${param.logout != null}">
+            <p class="text-warning">You have been logged out.</p>
+        </div>
+        <p>
+            <input type="submit" value="Login" class="btn btn-primary">
+        </p>
+    </div>
+</form>
+<div th:replace="fragments :: footer_menu"></div>
+</body>
+</html>

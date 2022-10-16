@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 @Transactional
 public class CustomerService {
 
-    public static final int CUSTOMERS_PER_PAGE = 5;
+    public static final int CUSTOMERS_PER_PAGE = 8;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -71,18 +71,20 @@ public class CustomerService {
     }
 
     public void save(Customer customer) {
+        var customerId = customer.getId();
+        var customerInDB = customerRepository.findById(customerId).get();
+
         if (!customer.getPassword().isEmpty() || customer.getPassword() != null) {
             var password = customer.getPassword();
             var encodedPassword = passwordEncoder.encode(password);
             customer.setPassword(encodedPassword);
         }
         else {
-            var customerId = customer.getId();
-            var customerInDB = customerRepository.findById(customerId).get();
             var password = customerInDB.getPassword();
             customer.setPassword(password);
         }
-        customer.setEnabled(true);
+        customer.setEnabled(customerInDB.isEnabled());
+        customer.setCreatedTime(customerInDB.getCreatedTime());
         customerRepository.save(customer);
     }
 }
